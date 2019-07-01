@@ -94,6 +94,115 @@ export default {
           component: './Welcome',
         },
         {
+          path: '/basic',
+          name: '基础数据',
+          icon: 'desktop',
+          routes:[{
+            path: '/basic/school',
+            name: '企业信息',
+            icon: 'right',
+            component: './basic/School',
+          },{
+            path: '/basic/department',
+            name: '方向管理',
+            icon: 'right',
+            component: './basic/Department',
+          },{
+            path: '/basic/clazz',
+            name: '班级管理',
+            icon: 'right',
+            component: './basic/Clazz',
+          },{
+            path: '/basic/course',
+            name: '课程管理',
+            icon: 'right',
+            component: './basic/Course',
+          },{
+            path: '/basic/user',
+            name: '用户管理',
+            icon: 'right',
+            component: './basic/User',
+          }]
+        },
+        {
+          path: '/qn',
+          name: '问卷管理',
+          icon: 'file',
+          routes:[{
+            path: '/qn/question',
+            name: '题库管理',
+            icon: 'right',
+            component: './qn/Question',
+          },{
+            path: '/qn/questionNaire',
+            name: '问卷管理',
+            icon: 'right',
+            component: './qn/QuestionNaire',
+          }]
+        },
+        {
+          path: '/survey',
+          name: '课调管理',
+          icon: 'star',
+          routes:[{
+            path: '/survey/create',
+            name: '创建课调',
+            icon: 'right',
+            component: './survey/Create',
+          },{
+            path: '/survey/monitor',
+            name: '课调监控',
+            icon: 'right',
+            component: './survey/Monitor',
+          }]
+        },
+        {
+          path: '/statistics',
+          name: '审计统计',
+          icon: 'stock',
+          routes:[{
+            path: '/statistics/checkSurvey',
+            name: '审核课调',
+            icon: 'right',
+            component: './statistics/CheckSurvey',
+          },{
+            path: '/statistics/allSurvey',
+            name: '全部课调',
+            icon: 'right',
+            component: './statistics/AllSurvey',
+          },{
+            path: '/statistics/clazzSurvey',
+            name: '班级课调',
+            icon: 'right',
+            component: './statistics/ClazzSurvey',
+          },{
+            path: '/statistics/teacherSurvey',
+            name: '讲师课调',
+            icon: 'right',
+            component: './statistics/TeacherSurvey',
+          }]
+        },{
+          path: '/personal',
+          name: '个人中心',
+          icon: 'user',
+          routes:[{
+            path: '/personal/mySurvey',
+            name: '我的课调',
+            icon: 'right',
+            component: './personal/MySurvey',
+          },{
+            path: '/personal/mySurveyStatistic',
+            name: '课调统计',
+            icon: 'right',
+            component: './personal/MySurveyStatistic',
+          },{
+            path: '/personal/myInfo',
+            name: '我的课调',
+            icon: 'right',
+            component: './personal/MyInfo',
+          }]
+        },
+        {
           component: './404',
         },
       ],
