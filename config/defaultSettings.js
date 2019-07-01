@@ -1,16 +1,16 @@
 export default {
-  navTheme: 'dark',
-  primaryColor: '#1890FF',
+  navTheme: 'light',
+  primaryColor: '#52a647',
   layout: 'sidemenu',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   autoHideHeader: false,
   fixSiderbar: false,
-  colorWeak: false,
+  colorWeak: true,
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: '杰普课调系统',
   pwa: false,
   iconfontUrl: '',
 };

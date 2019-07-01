@@ -11,7 +11,7 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { isAntDesignPro } from '@/utils/utils';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 /**
  * use Authorized check all menu item
@@ -37,11 +37,11 @@ const footerRender = (_, defaultDom) => {
         }}
       >
         <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">
-          <img
+          {/* <img
             src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
             width="82px"
             alt="netlify logo"
-          />
+          /> */}
         </a>
       </div>
     </>
