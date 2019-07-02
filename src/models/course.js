@@ -1,5 +1,5 @@
-import { query, saveOrUpdate } from '@/services/course';
 import { message } from 'antd';
+import { query, saveOrUpdate } from '@/services/course';
 
 const CourseModel = {
   namespace: 'course',
@@ -19,6 +19,7 @@ const CourseModel = {
     *saveOrUpdateCourse(_, { call, put }) {
       const response = yield call(saveOrUpdate, _.payload);
       message.success(response.message);
+      yield put({ type: 'changeVisible', payload: false });
       yield put({ type: 'fetchCourses' });
     },
   },

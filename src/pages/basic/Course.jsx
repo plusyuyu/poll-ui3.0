@@ -8,7 +8,6 @@ class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
       form: {},
     };
   }
@@ -17,34 +16,31 @@ class Course extends React.Component {
   }
   // 取消按钮的事件处理函数
   handleCancel = () => {
-    this.setState({ visible: false });
+    this.props.dispatch({ type: 'course/changeVisible', payload: false });
   };
 
   // 确认按钮的事件处理函数
   handleCreate = () => {
-    //this.setState({ visible: false });
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
       if (err) {
         return;
       }
       this.props.dispatch({ type: 'course/saveOrUpdateCourse', payload: values });
-      this.setState({
-        visible: false,
-      });
     });
   };
 
   // 添加
   toAdd = () => {
-    this.setState({ visible: true, form: {} });
+    this.props.dispatch({ type: 'course/changeVisible', payload: true });
+    this.setState({ form: {} });
   };
   // 修改
   toEdit = record => {
     this.setState({
       form: record,
     });
-    this.setState({ visible: true });
+    this.props.dispatch({ type: 'course/changeVisible', payload: true });
   };
 
   // 将子组件的引用在父组件中进行保存，方便后期调用
@@ -112,7 +108,7 @@ class Course extends React.Component {
         <CourseForm
           initData={this.state.form}
           wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
+          visible={this.props.course.visible}
           onCancel={this.handleCancel}
           onCreate={this.handleCreate}
         />
