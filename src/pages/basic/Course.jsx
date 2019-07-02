@@ -64,7 +64,6 @@ class Course extends React.Component {
       },
       {
         title: '操作',
-        dataIndex: 'id',
         render: (text, record) => {
           return (
             <div>
