@@ -1,19 +1,19 @@
 import React from 'react';
-import {connect} from 'dva'
-import {Button,Table} from 'antd'
-import styles from './course.less'
-import CourseForm from './CourseForm'
+import { connect } from 'dva';
+import { Button, Table, Icon } from 'antd';
+import styles from './course.less';
+import CourseForm from './CourseForm';
 
 class Course extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      visible:false,
-      form:{}
-    }
+      visible: false,
+      form: {},
+    };
   }
-  componentWillMount(){
-    this.props.dispatch({type:"course/fetchCourses"})
+  componentWillMount() {
+    this.props.dispatch({ type: 'course/fetchCourses' });
   }
   // 取消按钮的事件处理函数
   handleCancel = () => {
@@ -22,21 +22,37 @@ class Course extends React.Component {
 
   // 确认按钮的事件处理函数
   handleCreate = () => {
-    this.setState({ visible: false });
-  }
+    //this.setState({ visible: false });
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      this.props.dispatch({ type: 'course/saveOrUpdateCourse', payload: values });
+      this.setState({
+        visible: false,
+      });
+    });
+  };
 
   // 添加
-  toAdd = ()=>{
+  toAdd = () => {
+    this.setState({ visible: true, form: {} });
+  };
+  // 修改
+  toEdit = record => {
+    this.setState({
+      form: record,
+    });
     this.setState({ visible: true });
-  }
-
+  };
 
   // 将子组件的引用在父组件中进行保存，方便后期调用
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
 
-  render(){
+  render() {
     const columns = [
       {
         title: '编号',
@@ -49,6 +65,17 @@ class Course extends React.Component {
       {
         title: '描述',
         dataIndex: 'description',
+      },
+      {
+        title: '操作',
+        dataIndex: 'id',
+        render: (text, record) => {
+          return (
+            <div>
+              <Icon type="edit" onClick={this.toEdit.bind(this, record)} />
+            </div>
+          );
+        },
       },
     ];
 
@@ -66,15 +93,20 @@ class Course extends React.Component {
       <div className={styles.content}>
         {/* 按钮 */}
         <div className="btns">
-          <Button type="primary" onClick={this.toAdd}>添加</Button>
+          <Button type="primary" onClick={this.toAdd}>
+            添加
+          </Button>
         </div>
         {/* 表格内容 */}
         <div>
-          <Table 
-            size="small" 
-            rowSelection={rowSelection} 
-            rowKey="id" columns={columns} 
-            dataSource={this.props.course.courses} />
+          <Table
+            bordered
+            rowKey="id"
+            size="small"
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={this.props.course.courses}
+          />
         </div>
         {/* 模态框 */}
         <CourseForm
@@ -82,12 +114,13 @@ class Course extends React.Component {
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
-          onCreate={this.handleCreate}/>
+          onCreate={this.handleCreate}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default connect(({course})=>({
-  course
+export default connect(({ course }) => ({
+  course,
 }))(Course);

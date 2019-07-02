@@ -1,10 +1,11 @@
-import {query} from "@/services/course"
+import { query, saveOrUpdate } from '@/services/course';
+import { message } from 'antd';
 
 const CourseModel = {
-  namespace:"course",
+  namespace: 'course',
   state: {
     courses: [],
-    visible:false
+    visible: false,
   },
   effects: {
     // 获取所有课程信息
@@ -14,24 +15,29 @@ const CourseModel = {
         type: 'reloadCourses',
         payload: response,
       });
-    }
+    },
+    *saveOrUpdateCourse(_, { call, put }) {
+      const response = yield call(saveOrUpdate, _.payload);
+      message.success(response.message);
+      yield put({ type: 'fetchCourses' });
+    },
   },
-  reducers:{
+  reducers: {
     // 更改模态框的显示状态
-    changeVisible(state,action){
+    changeVisible(state, action) {
       return {
         ...state,
-        visible:action.payload
-      }
+        visible: action.payload,
+      };
     },
     // 更新状态中的courses
     reloadCourses(state, action) {
       return {
         ...state,
-        courses:action.payload.data
-      }
-    }
-  }
-}
+        courses: action.payload.data,
+      };
+    },
+  },
+};
 
 export default CourseModel;
