@@ -2,6 +2,7 @@ import React from 'react';
 import {Form,Modal,Input,Radio} from 'antd'
 import {connect} from 'dva'
 
+// 课程表单
 class CourseForm extends React.Component {
   constructor(props){
     super(props);
