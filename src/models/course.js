@@ -4,6 +4,7 @@ const CourseModel = {
   namespace:"course",
   state: {
     courses: [],
+    visible:false
   },
   effects: {
     // 获取所有课程信息
@@ -16,6 +17,13 @@ const CourseModel = {
     }
   },
   reducers:{
+    // 更改模态框的显示状态
+    changeVisible(state,action){
+      return {
+        ...state,
+        visible:action.payload
+      }
+    },
     // 更新状态中的courses
     reloadCourses(state, action) {
       return {
