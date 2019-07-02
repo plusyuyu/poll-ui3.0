@@ -95,109 +95,109 @@ export default {
         },
         {
           path: '/basic',
-          name: '基础数据',
+          name: 'basic',
           icon: 'desktop',
           routes:[{
             path: '/basic/school',
-            name: '企业信息',
+            name: 'school',
             icon: 'right',
             component: './basic/School',
           },{
             path: '/basic/department',
-            name: '方向管理',
+            name: 'department',
             icon: 'right',
             component: './basic/Department',
           },{
             path: '/basic/clazz',
-            name: '班级管理',
+            name: 'clazz',
             icon: 'right',
             component: './basic/Clazz',
           },{
             path: '/basic/course',
-            name: '课程管理',
+            name: 'course',
             icon: 'right',
             component: './basic/Course',
           },{
             path: '/basic/user',
-            name: '用户管理',
+            name: 'user',
             icon: 'right',
             component: './basic/User',
           }]
         },
         {
           path: '/qn',
-          name: '问卷管理',
+          name: 'qn',
           icon: 'file',
           routes:[{
             path: '/qn/question',
-            name: '题库管理',
+            name: 'question',
             icon: 'right',
             component: './qn/Question',
           },{
             path: '/qn/questionNaire',
-            name: '问卷管理',
+            name: 'questionNaire',
             icon: 'right',
             component: './qn/QuestionNaire',
           }]
         },
         {
           path: '/survey',
-          name: '课调管理',
+          name: 'survey',
           icon: 'star',
           routes:[{
             path: '/survey/create',
-            name: '创建课调',
+            name: 'create',
             icon: 'right',
             component: './survey/Create',
           },{
             path: '/survey/monitor',
-            name: '课调监控',
+            name: 'monitor',
             icon: 'right',
             component: './survey/Monitor',
           }]
         },
         {
           path: '/statistics',
-          name: '审计统计',
+          name: 'statistics',
           icon: 'stock',
           routes:[{
             path: '/statistics/checkSurvey',
-            name: '审核课调',
+            name: 'checkSurvey',
             icon: 'right',
             component: './statistics/CheckSurvey',
           },{
             path: '/statistics/allSurvey',
-            name: '全部课调',
+            name: 'allSurvey',
             icon: 'right',
             component: './statistics/AllSurvey',
           },{
             path: '/statistics/clazzSurvey',
-            name: '班级课调',
+            name: 'clazzSurvey',
             icon: 'right',
             component: './statistics/ClazzSurvey',
           },{
             path: '/statistics/teacherSurvey',
-            name: '讲师课调',
+            name: 'teacherSurvey',
             icon: 'right',
             component: './statistics/TeacherSurvey',
           }]
         },{
           path: '/personal',
-          name: '个人中心',
+          name: 'personal',
           icon: 'user',
           routes:[{
             path: '/personal/mySurvey',
-            name: '我的课调',
+            name: 'mySurvey',
             icon: 'right',
             component: './personal/MySurvey',
           },{
             path: '/personal/mySurveyStatistic',
-            name: '课调统计',
+            name: 'mySurveyStatistic',
             icon: 'right',
             component: './personal/MySurveyStatistic',
           },{
             path: '/personal/myInfo',
-            name: '我的课调',
+            name: 'myInfo',
             icon: 'right',
             component: './personal/MyInfo',
           }]
