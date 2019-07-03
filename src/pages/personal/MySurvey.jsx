@@ -98,7 +98,7 @@ class MySurvey extends React.Component {
       <div className={styles.content}>
         <div className="btns">
           {/* <Button >选择年度</Button><br/>   */}
-          <MonthPicker onChange={onChange} placeholder="Select month" /><br />
+          <DatePicker mode="year" format="YYYY" onChange={onChange} placeholder="Select month" /><br />
           {/* <Button type="primary" onClick={this.downExcel}>导出</Button> */}
           <Drawer
           width={640}
