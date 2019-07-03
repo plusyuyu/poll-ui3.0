@@ -9,7 +9,6 @@ class CourseForm extends React.Component {
   }
 
   render() {
-    const { Option } = Select;
     const formLayout = {
       labelCol: {
         xs: { span: 24 },

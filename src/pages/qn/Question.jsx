@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import style from './Question.less';
 import { connect } from 'dva';
 import { Button,Table,Icon,Card,Checkbox,Modal } from 'antd';
@@ -57,6 +58,15 @@ class Question extends React.Component {
 			    
 			   
 			</div>
+=======
+
+class Question extends React.Component {
+ 
+  render(){
+    return (
+      <div>
+        <p>题库管理</p>
+>>>>>>> 64bd9996d228a6c6a1cceb078c7fc6456a173262
       </div>
     )
   }
