@@ -136,8 +136,10 @@ class QuestionNaire extends React.Component {
 
         <Table
           rowSelection={rowSelection}
+          size="small"
           rowKey="id"
           bordered
+          pagination={false}
           columns={columns}
           dataSource={this.props.questionNaire.questionNaires}
         ></Table>

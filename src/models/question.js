@@ -1,4 +1,4 @@
-import {query} from "@/services/question"
+import {query,toDelete} from "@/services/question"
 
 const CourseModel = {
   namespace:"question",
@@ -13,7 +13,11 @@ const CourseModel = {
         type: 'reloadQuestion',
         payload: response,
       });
-    }
+    },
+     *deleteQuestion(_, { call, put }) {
+      const response = yield call(toDelete, _.payload);
+      yield put({ type: 'fetchQuestion' });
+    },
   },
   reducers:{
     // 更新状态中的courses
