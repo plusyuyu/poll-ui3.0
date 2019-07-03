@@ -149,7 +149,7 @@ class QuestionNaire extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <QuestionNaireForm student={this.state.student} ref={this.getForm} />
+          <QuestionNaireForm student={this.state.form} ref={this.getForm} />
         </Modal>
       </div>
     );

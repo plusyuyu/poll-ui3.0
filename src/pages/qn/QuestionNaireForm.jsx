@@ -1,18 +1,11 @@
 import React from 'react';
-import {Form,Input,Radio,Select} from 'antd';
+import { Form, Input, Radio, Select } from 'antd';
+import { connect } from 'dva';
+
 const { Option } = Select;
 
 class QuestionNaireForm extends React.Component {
-   handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('表单绑定的数据：', values);
-        // {name:'',age:''}
-      }
-    });
-  }; 
-   handleSelectChange = value => {
+  handleSelectChange = value => {
     console.log(value);
     this.props.form.setFieldsValue({
       note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
@@ -27,18 +20,14 @@ class QuestionNaireForm extends React.Component {
         <Form.Item label="问卷名称">
           {getFieldDecorator('realname', {
             rules: [{ required: true, message: '请输入真实姓名!' }],
-          })(
-            <Input placeholder="请输入真实姓名"/>,
-          )}
+          })(<Input placeholder="请输入真实姓名" />)}
         </Form.Item>
         <Form.Item label="问卷简介">
           {getFieldDecorator('username', {
             rules: [{ required: true, message: '请输入用户名!' }],
-          })(
-            <Input type="TextArea " placeholder="请输入用户名"/>,
-          )}
+          })(<Input type="TextArea " placeholder="请输入用户名" />)}
         </Form.Item>
-       {/* <Form.Item label="问卷题目">
+        {/* <Form.Item label="问卷题目">
           {getFieldDecorator('gender', {
             rules: [{ required: true, message: 'Please select your gender!' }],
           })(
@@ -56,17 +45,18 @@ class QuestionNaireForm extends React.Component {
   }
 }
 //设置表单数据的默认值
-const mapPropsToFields = (props)=>{
-  // console.log(props.student,'---');
-  let student = props.student;
+const mapPropsToFields = props => {
   let obj = {};
-  for(let key in student){
-    obj[key] = Form.createFormField({
-      value: student[key],
-    });
+  for (let key in props.initData) {
+    let val = props.initData[key];
+    obj[key] = Form.createFormField({ value: val });
   }
   return obj;
-}
-const WrappedQuestionNaireForm = Form.create({name: 'student_form',mapPropsToFields})(QuestionNaireForm);
+};
+// const WrappedQuestionNaireForm = Form.create({name: 'student_form',mapPropsToFields})(QuestionNaireForm);
 
-export default WrappedQuestionNaireForm;
+export default connect()(
+  Form.create({
+    mapPropsToFields,
+  })(QuestionNaireForm),
+);
