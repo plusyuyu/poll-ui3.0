@@ -77,7 +77,9 @@ class Department extends React.Component {
 
   // 批量删除
   batchDelete(id) {
-    message.success(JSON.stringify(this.state.ids));
+    // message.success(this.state.ids);
+    // message.success(JSON.stringify(this.state.ids));
+    this.props.dispatch({ type: 'department/batchDepartment', payload: this.state.ids });
   }
 
   // 表格的头部

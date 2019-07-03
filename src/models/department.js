@@ -1,4 +1,4 @@
-import { query, toDelete, toSaveOrUpdate } from '@/services/department';
+import { query, toDelete, toSaveOrUpdate, batchDelete } from '@/services/department';
 
 const DepartmentModel = {
   namespace: 'department',
@@ -16,6 +16,13 @@ const DepartmentModel = {
     },
     *deleteDepartment(_, { call, put }) {
       const response = yield call(toDelete, _.payload);
+      // 将type设置为fetchDepartment，即删除一次后，再次获取一次数据
+      yield put({
+        type: 'fetchDepartment',
+      });
+    },
+    *batchDepartment(_, { call, put }) {
+      const response = yield call(batchDelete, _.payload);
       // 将type设置为fetchDepartment，即删除一次后，再次获取一次数据
       yield put({
         type: 'fetchDepartment',
