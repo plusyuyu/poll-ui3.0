@@ -76,7 +76,7 @@ class Department extends React.Component {
   };
 
   // 批量删除
-  batchDelete(id) {
+  batchDelete(ids) {
     // message.success(this.state.ids);
     // message.success(JSON.stringify(this.state.ids));
     this.props.dispatch({ type: 'department/batchDepartment', payload: this.state.ids });

@@ -8,6 +8,12 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 class Clazz extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ids: [],
+    };
+  }
   componentWillMount() {
     this.props.dispatch({ type: 'clazz/fetchClazz' });
   }
@@ -31,6 +37,7 @@ class Clazz extends React.Component {
     });
   };
 
+  // 删除
   toDelete = (id, event) => {
     confirm({
       title: '确认删除该行数据么？',
@@ -38,10 +45,16 @@ class Clazz extends React.Component {
       okType: 'danger',
       cancelText: '取消',
       onOk: () => {
-        this.props.dispatch({ type: 'clazz/deleteClazz', payload: id });
+        this.props.dispatch({ type: 'clazz/batchClazz', payload: id });
       },
     });
   };
+
+  // 批量删除
+  batchDelete(ids) {
+    // message.success(JSON.stringify(this.state.ids))
+    this.props.dispatch({ type: 'clazz/batchClazz', payload: this.state.ids });
+  }
 
   render() {
     const columns = [
@@ -81,7 +94,7 @@ class Clazz extends React.Component {
     ];
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        this.setState({ ids: selectedRowKeys });
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User',
@@ -97,6 +110,9 @@ class Clazz extends React.Component {
         </Select>
         <Button type="primary" onClick={this.showModal} style={{ margin: '1em' }}>
           添加
+        </Button>
+        <Button type="danger" onClick={this.batchDelete.bind(this)}>
+          批量删除
         </Button>
         <Modal
           size="lg"

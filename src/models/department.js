@@ -14,6 +14,7 @@ const DepartmentModel = {
         payload: response,
       });
     },
+    // 单个删除
     *deleteDepartment(_, { call, put }) {
       const response = yield call(toDelete, _.payload);
       // 将type设置为fetchDepartment，即删除一次后，再次获取一次数据
@@ -21,6 +22,7 @@ const DepartmentModel = {
         type: 'fetchDepartment',
       });
     },
+    // 批量删除
     *batchDepartment(_, { call, put }) {
       const response = yield call(batchDelete, _.payload);
       // 将type设置为fetchDepartment，即删除一次后，再次获取一次数据
@@ -28,6 +30,7 @@ const DepartmentModel = {
         type: 'fetchDepartment',
       });
     },
+    // 保存或修改
     *saveDepartment(_, { call, put }) {
       const response = yield call(toSaveOrUpdate, _.payload);
       yield put({
