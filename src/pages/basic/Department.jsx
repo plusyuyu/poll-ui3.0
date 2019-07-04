@@ -19,14 +19,15 @@ class Department extends React.Component {
     this.form = form;
   };
 
-  // 模态框的确认取消按钮
+  // 模态框的确认按钮
   handleOk = e => {
     // 1.获取表单数据
     e.preventDefault();
     this.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch({ type: 'department/saveDepartment' });
-        console.log(values);
+        // 如果没有错误，则打印填入输入框的内容，为values
+        // console.log(values);
+        this.props.dispatch({ type: 'department/saveDepartment',payload:values });
       }
     });
     // 2.与后台交互完成保存或者更新
@@ -36,6 +37,7 @@ class Department extends React.Component {
     });
   };
 
+  // 模态框的取消按钮
   handleCancel = e => {
     this.setState({
       visible: false,
@@ -82,8 +84,10 @@ class Department extends React.Component {
     this.props.dispatch({ type: 'department/batchDepartment', payload: this.state.ids });
   }
 
-  // 表格的头部
+ 
   render() {
+
+    // 定义表格的头部
     const columns = [
       {
         title: '编号',
@@ -148,7 +152,8 @@ class Department extends React.Component {
           </div>
           {/* 添加模态框 */}
           <Modal
-            title="Basic Modal"
+            width="700px"
+            title="添加年级"
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}

@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Modal, Button, Input, Table, Icon, Select, message } from 'antd';
 const { Option } = Select;
 const { confirm } = Modal;
+import ClazzForm from './ClazzForm';
 
 function handleChange(value) {
   console.log(`selected ${value}`);
@@ -25,13 +26,19 @@ class Clazz extends React.Component {
     });
   };
   handleOk = e => {
-    console.log(e);
+    e.preventDefault();
+    this.form.validateFields((err, values) => {
+      if (!err) {
+        // 如果没有错误，则打印填入输入框的内容，为values
+        // console.log(values);
+        this.props.dispatch({ type: 'clazz/saveClazz',payload:values });
+      }
+    });
     this.setState({
       visible: false,
     });
   };
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -115,17 +122,18 @@ class Clazz extends React.Component {
           <Button type="danger" onClick={this.batchDelete.bind(this)}>
             批量删除
           </Button>
+
+          {/* 模态框 */}
           <Modal
-            size="lg"
-            title="添加年级"
+            width="700px"
+            height="500px"
+            title="添加班级"
+            
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
           >
-            *年级名称
-            <Input type="text" />
-            *年级简介
-            <Input type="text" />
+            <ClazzForm />
           </Modal>
           <div>
             <Table

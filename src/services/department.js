@@ -19,8 +19,9 @@ export async function batchDelete(ids) {
 }
 
 // 保存或更新接口
-export async function toSaveOrUpdate() {
+export async function toSaveOrUpdate(parma) {
   return request('/api/manager/grade/saveOrUpdate', {
     method: 'post',
+    params:parma
   });
 }

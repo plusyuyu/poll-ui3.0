@@ -1,22 +1,26 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input,Select } from 'antd';
 const { TextArea } = Input;
-class DepartmentForm extends React.Component {
+class ClazzForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     getFieldDecorator('id');
     return (
       <div>
         <Form className="login-form">
-          <Form.Item label="年级名称">
+          <Form.Item label="班级名称">
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: '请输入年级名称!' }],
-            })(<Input placeholder="年级名称" />)}
+              rules: [{ required: true, message: '请输入班级名称!' }],
+            })(<Input />)}
           </Form.Item>
-          <Form.Item label="年级简介">
-            {getFieldDecorator('description', {
-              rules: [{ required: true, message: '请输入年级简介!' }],
-            })(<TextArea rows={2} />)}
+          <Form.Item label="所属年级">
+            {getFieldDecorator('description')(<Select></Select>)}
+          </Form.Item>
+          <Form.Item label="所属班主任">
+            {getFieldDecorator('description')(<Select></Select>)}
+          </Form.Item>
+          <Form.Item label="班级简介">
+            {getFieldDecorator('description')(<TextArea rows={2} />)}
           </Form.Item>
         </Form>
       </div>
@@ -36,4 +40,4 @@ const mapPropsToFields = props => {
 
 export default Form.create({
   mapPropsToFields,
-})(DepartmentForm);
+})(ClazzForm);
