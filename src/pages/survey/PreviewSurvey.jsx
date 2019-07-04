@@ -5,7 +5,7 @@ import QuestionForm from './QuestionForm';
 
 import { Button, Table, Icon, Card, Checkbox, Modal } from 'antd';
 const confirm = Modal.confirm;
-class Question extends React.Component {
+class PreviewSurvey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,10 +13,6 @@ class Question extends React.Component {
       form: {},
     };
   }
-
-  edit = (data, event) => {
-    console.log(this.props.question.questions);
-  };
 
   componentWillMount() {
     this.props.dispatch({ type: 'question/fetchQuestion' });
@@ -26,38 +22,15 @@ class Question extends React.Component {
     console.log(e.target.checked);
   };
 
-  deleteQuerstion = id => {
-    confirm({
-      title: '提示',
-      content: '确定删除吗？',
-      okText: '确认',
-      cancelText: '取消',
-      // 改成箭头函数
-      onOk: () => {
-        // message.success('id：'+id);
-        //提交数据给后台进行删除
-        this.props.dispatch({ type: 'question/deleteQuestion', payload: id });
-      },
-    });
-  };
-
   handleOk = e => {
     e.preventDefault();
     const newForm = this.formRef.props.form;
     newForm.validateFields((err, values) => {
       if (!err) {
-        console.log('表单绑定的数据：', values);
       }
     });
     this.setState({
       visible: false,
-    });
-  };
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-      form: {},
     });
   };
 
@@ -74,11 +47,7 @@ class Question extends React.Component {
   };
   render() {
     return (
-      <div className={style.question}>
-        <Button type="primary" onClick={this.showModal}>
-          添加
-        </Button>
-        {/*<Button type="primary">批量删除</Button>*/}
+      <div>
         <div>
           {this.props.question.questions.map((item, index) => {
             return (
@@ -89,22 +58,6 @@ class Question extends React.Component {
                   <span>
                     {item.name}
                     <span className={style.qType}>{item.questionType}</span>
-                  </span>
-                }
-                extra={
-                  <span>
-                    <Icon
-                      className={style.icon}
-                      type="edit"
-                      title="修改"
-                      onClick={this.edit.bind(this)}
-                    />{' '}
-                    <Icon
-                      type="delete"
-                      title="删除"
-                      onClick={this.deleteQuerstion.bind(this, item.id)}
-                      style={{ color: '#F52222' }}
-                    />
                   </span>
                 }
                 bordered
@@ -120,15 +73,6 @@ class Question extends React.Component {
               </Card>
             );
           })}
-          <Modal
-            title="Basic Modal"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            width={'900px'}
-          >
-            <QuestionForm initData={this.state.form} wrappedComponentRef={this.saveFormRef} />
-          </Modal>
         </div>
       </div>
     );
@@ -136,4 +80,4 @@ class Question extends React.Component {
 }
 export default connect(({ question }) => ({
   question,
-}))(Question);
+}))(PreviewSurvey);
