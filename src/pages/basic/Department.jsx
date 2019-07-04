@@ -11,7 +11,7 @@ class Department extends React.Component {
       visible: false,
       ids: [],
       department: {},
-    };
+    };  
   }
 
   // ref函数，使子组件能拿到父组件的值
@@ -119,41 +119,43 @@ class Department extends React.Component {
         },
       },
     ];
+
+    // 选中table前的选中框时，将该行的id赋值给ids
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
+        // console.log(selectedRowKeys,'-----');
         this.setState({ ids: selectedRowKeys });
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
+      }
     };
+    
     return (
       <div>
-        <Button type="primary" style={{ margin: '1em' }} onClick={this.toAdd}>
-          添加
-        </Button>
-        <Button type="danger" onClick={this.batchDelete.bind(this)} style={{ margin: '1em' }}>
-          批量删除
-        </Button>
-        {/* 表格 */}
-        <div>
-          <Table
-            rowSelection={rowSelection}
-            columns={columns}
-            rowKey="id"
-            dataSource={this.props.department.departments}
-          />
+        <div style={{backgroundColor:'white',borderRadius:'5px',padding:'1em'}}>
+          <Button type="default" onClick={this.toAdd}>
+            添加
+          </Button>
+          <Button type="danger" onClick={this.batchDelete.bind(this)} style={{ margin: '1em' }}>
+            批量删除
+          </Button>
+          {/* 表格 */}
+          <div>
+            <Table
+              rowSelection={rowSelection}
+              columns={columns}
+              rowKey="id"
+              dataSource={this.props.department.departments}
+            />
+          </div>
+          {/* 添加模态框 */}
+          <Modal
+            title="Basic Modal"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            <DepartmentForm initData={this.state.department} ref={this.departmentFromRefs} />
+          </Modal>
         </div>
-        {/* 添加模态框 */}
-        <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          <DepartmentForm initData={this.state.department} ref={this.departmentFromRefs} />
-        </Modal>
       </div>
     );
   }

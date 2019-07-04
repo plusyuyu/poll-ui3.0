@@ -103,36 +103,38 @@ class Clazz extends React.Component {
     };
     return (
       <div>
-        <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
-          <Option value="jack">Jack</Option>
-          <Option value="lucy">Lucy</Option>
-          <Option value="Yiminghe">yiminghe</Option>
-        </Select>
-        <Button type="primary" onClick={this.showModal} style={{ margin: '1em' }}>
-          添加
-        </Button>
-        <Button type="danger" onClick={this.batchDelete.bind(this)}>
-          批量删除
-        </Button>
-        <Modal
-          size="lg"
-          title="添加年级"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          *年级名称
-          <Input type="text" />
-          *年级简介
-          <Input type="text" />
-        </Modal>
-        <div>
-          <Table
-            rowSelection={rowSelection}
-            columns={columns}
-            rowKey="id"
-            dataSource={this.props.clazz.clazzs}
-          />
+        <div style={{backgroundColor:'white',borderRadius:'5px',padding:'1em'}}>
+          <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+            <Option value="Yiminghe">yiminghe</Option>
+          </Select>
+          <Button type="default" onClick={this.showModal} style={{ margin: '1em' }}>
+            添加
+          </Button>
+          <Button type="danger" onClick={this.batchDelete.bind(this)}>
+            批量删除
+          </Button>
+          <Modal
+            size="lg"
+            title="添加年级"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            *年级名称
+            <Input type="text" />
+            *年级简介
+            <Input type="text" />
+          </Modal>
+          <div>
+            <Table
+              rowSelection={rowSelection}
+              columns={columns}
+              rowKey="id"
+              dataSource={this.props.clazz.clazzs}
+            />
+          </div>
         </div>
       </div>
     );

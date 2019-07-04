@@ -10,9 +10,11 @@ const info = () => {
 };
 
 class School extends React.Component {
+
   componentWillMount() {
     this.props.dispatch({ type: 'school/fetchSchool' });
   }
+  
   render() {
     return (
       <div>
