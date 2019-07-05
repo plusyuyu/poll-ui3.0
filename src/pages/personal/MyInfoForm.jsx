@@ -30,8 +30,7 @@ class MyInfoForm extends React.Component {
       <Modal visible={visible} title="更改密码" okText="提交" onCancel={onCancel} onOk={onCreate}>
         <Form layout="vertical" {...formLayout}>
        
-
-          <Form.Item label="密码" hasFeedback >
+        <Form.Item label="密码" hasFeedback >
             {getFieldDecorator('password', {
               rules: [
                 {
@@ -41,9 +40,21 @@ class MyInfoForm extends React.Component {
                   validator: this.compareToFirstPassword,
                 },
               ],
-            })(<Input.Password placeholder="请输入密码" />)}
+            })(<Input.Password placeholder="请输入旧秘密" />)}
           </Form.Item>
-          <Form.Item label="密码" hasFeedback>
+          <Form.Item label="新密码" hasFeedback >
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password placeholder="请输入新密码" />)}
+          </Form.Item>
+          <Form.Item label="确认新密码" hasFeedback>
             {getFieldDecorator('passward', {
               rules: [
                 {
@@ -53,7 +64,7 @@ class MyInfoForm extends React.Component {
                   validator: this.compareToFirstPassword,
                 },
               ],
-            })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="请重复输入密码"/>)}
+            })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="请确认新密码"/>)}
           </Form.Item>
         </Form>
       </Modal>

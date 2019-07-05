@@ -25,7 +25,10 @@ class TeacherSurvey extends React.Component {
       }
     })
   }
-  
+
+  lookDetails=()=>{
+
+  }
   
   render(){
     const columns = [
@@ -49,7 +52,9 @@ class TeacherSurvey extends React.Component {
         title: '操作',
         dataIndex: '',
         render: (text, record) => {
-          <Icon type="eye"></Icon>
+         return (
+           <Icon type="eye" onClick={this.lookDetails.bind(this,record)} />
+         )
         },
       },
     ];
