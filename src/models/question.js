@@ -1,4 +1,4 @@
-import {query,toDelete} from "@/services/question"
+import {query,toDelete,addOrupdate} from "@/services/question"
 
 const CourseModel = {
   namespace:"question",
@@ -16,6 +16,10 @@ const CourseModel = {
     },
      *deleteQuestion(_, { call, put }) {
       const response = yield call(toDelete, _.payload);
+      yield put({ type: 'fetchQuestion' });
+    },
+     *addOrUpdate(_, { call, put }) {
+      const response = yield call(addOrupdate, _.payload);
       yield put({ type: 'fetchQuestion' });
     },
   },
