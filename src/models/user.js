@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { query, saveOrUpdate, deleteUsers } from '@/services/user';
+import { query, saveOrUpdate, deleteUsers , saveUsers} from '@/services/user';
 
 const UserModel = {
   namespace: 'user',
@@ -11,10 +11,11 @@ const UserModel = {
     // 获取所有用户信息
     *fetchUsers(_, { call, put }) {
       const response = yield call(query);
+      // console.log(JSON.stringify(response.data))
       // alert(JSON.stringify(response.data))
       yield put({
         type: 'reloadUsers',
-        payload: response.data,});
+        payload: response});
     },
     *saveOrUpdateUser(_, { call, put }) {
       const response = yield call(saveOrUpdate, _.payload);
@@ -22,17 +23,18 @@ const UserModel = {
       yield put({ type: 'changeVisible', payload: false });
       yield put({ type: 'fetchUsers'});
   },
+
+  *save(_, { call, put }) {
+    const response = yield call(saveUsers, _.payload);
+    message.success(response.message);
+    yield put({ type: 'changeVisible', payload: false });
+    yield put({ type: 'fetchUsers'});
+},
+
   *fetchDeleteUsers(_, { call, put }) {
     yield call(deleteUsers, {id: _.payload});
     yield put({ type: 'fetchUsers' });
   },
-
-  *batchDeleteUser(_, { call, put }) {
-    const response = yield call(batchDelete, _.payload);
-    message.success(response.message);
-    yield put({ type: 'batchDelete', payload: false });
-    yield put({ type: 'fetchUsers' });
-},
 },
 
   reducers: {
@@ -47,7 +49,7 @@ const UserModel = {
     reloadUsers(state, action) {
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.data,
       };
     },
   },

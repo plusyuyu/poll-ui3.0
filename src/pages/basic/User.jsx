@@ -6,11 +6,10 @@ import styles from './user.less';
 import UserForm from './UserForm';
 
 class User extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      visible:false,
-      form:{},
+    this.state = {
+      form: {},
     };
   }
   componentWillMount(){
@@ -25,25 +24,34 @@ class User extends React.Component {
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
+     
       if (err) {
         return;
       }
-      console.log(values)
       this.props.dispatch({ type: 'user/saveOrUpdateUser', payload: values });
     });
   };
+  // 添加
   addHandle = () => {
     this.props.dispatch({ type: 'user/changeVisible', payload: true });
     this.setState({ form: {} });
   };
-  delHandle(id) {
+  // 禁用
+  pauseHandle(record) {
+    record.enabled=false;
     Modal.confirm({
-      title: '确认删除吗？',
+      title: '确认禁用吗？',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk:()=> {
-    this.props.dispatch({ type: 'user/fetchDeleteUsers', payload: id });
+    // this.props.dispatch({ type: 'user/fetchDeleteUsers', payload: record });   //};
+    this.setState({
+      form: record,
+    });
+    record.regtime=new Date();
+    this.props.dispatch({ type: 'user/save', payload: record });
+
   }
 })
   }
@@ -69,7 +77,14 @@ class User extends React.Component {
       },
       {
         title: '状态',
-        dataIndex: 'enabled',
+        dataIndex: "enabled",
+        render:(text,record)=>{
+          if(record.enabled===true){
+            return ("正常")
+          }else{
+            return ("禁用")
+          }
+        }
       },
       {
         title: 'e-mail',
@@ -80,12 +95,19 @@ class User extends React.Component {
         width:100,
         align:'center',
         render:(text,record)=>{
-          return(
-            <div>
-              <Icon type="delete" onClick={this.delHandle.bind(this,record.id)} />  
+          if(record.enabled===true){
+              return ( 
+              <div>
+                <Icon type="smile" onClick={this.pauseHandle.bind(this,record)} />  
+              </div>)
+          }
+          else{
+            return(
+              <div> 
+                <Icon type="frown"/>  
             </div>
-            
-            );
+            )
+          }
           },
         },
       ];
@@ -102,23 +124,27 @@ class User extends React.Component {
 
     return (
       <div className={styles.content}>
+        {/* {JSON.stringify(this.props.user.users)} */}
         <div className="btns">
           <Button type="primary" onClick={this.addHandle}>添加</Button>&nbsp;
-          <Button type="danger" onClick={this.batchDel}>批量删除</Button>
         </div>
-        <Table
-            bordered
-            rowKey="id"
-            size="small"
-            rowSelection={rowSelection}
-            columns={columns} dataSource={this.props.user.users}/>
-       <UserForm
+        <div>
+          <Table
+              bordered
+              rowKey="id"
+              size="small"
+              rowSelection={rowSelection}
+              columns={columns} dataSource={this.props.user.users}/>
+        </div>
+        <div>
+          <UserForm
             initData={this.state.form}
             wrappedComponentRef={this.saveFormRef}
             visible={this.props.user.visible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}
-      />
+          />        
+       </div>
       </div>
   
     );

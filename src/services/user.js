@@ -9,19 +9,28 @@ export async function query() {
 export async function saveOrUpdate(param) {
   return request('/api/manager/user/register', {
     method: 'post',
-    data: param,
+    data: qs.stringify(param),
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
   });
+}
+
+export async function saveUsers(param) {
+  return request('/api/manager/user/saveOrUpdate', {
+    method: 'post',
+    params:param, },
+  );
 }
   
   export async function deleteUsers(id) {
     return request('/api/manager/user/deleteById', { params: id });
   }
-  export async function batchDelete(param){
-      return request('/api/manager/user/batchDelete', {
-      method: 'post',
-      data: qs.stringify(param),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-    });
-  }
+
+  // 批量删除
+  // export async function batchDelete(param){
+  //     return request('/api/manager/user/batchDelete', {
+  //     method: 'post',
+  //     data: qs.stringify(param),
+  //     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+  //   });
+  // }
 
