@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Modal, Input,Radio,Select } from 'antd';
+import { Form, Modal, Input, Radio, Select } from 'antd';
 import { connect } from 'dva';
 
-// 课程表单
+// 修改密码表单
 class MyInfoForm extends React.Component {
   constructor(props) {
     super(props);
@@ -22,46 +22,38 @@ class MyInfoForm extends React.Component {
     // 父组件传递给子组件值
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator } = form;
+    const { Option } = Select;
     // 将表单中没有出现的值做一个双向数据绑定
     getFieldDecorator('id');
     getFieldDecorator('password');
-    
-
     return (
-      <Modal
-        visible={visible}
-        title="添加用户信息"
-        okText="提交"
-        onCancel={onCancel}
-        onOk={onCreate}
-      >
+      <Modal visible={visible} title="更改密码" okText="提交" onCancel={onCancel} onOk={onCreate}>
         <Form layout="vertical" {...formLayout}>
-        
-          <Form.Item label="姓名">
-            {getFieldDecorator('nickname', {
-              rules: [{ required: true, message: '请输入姓名！' }],
-            })(<Input />)}
-          </Form.Item>
-          <Form.Item label="密码">
+          <Form.Item label="密码" hasFeedback>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: '请输入密码！' }],
-            })(<Input />)}
+              rules: [
+                {
+                  required: true,
+                  message: '请输入新密码',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password />)}
           </Form.Item>
-          <Form.Item label="性别" className="collection-create-form_last-form-item">
-          {getFieldDecorator('gender', {
-            initialValue: '男',
-          })(
-            <Radio.Group>
-              <Radio value="男">男</Radio>
-              <Radio value="女">女</Radio>
-            </Radio.Group>,
-          )}
-        </Form.Item>
-       
-          <Form.Item label="e-mail">
-            {getFieldDecorator('email', {
-              rules: [{ required: true, message: '请输入邮箱！' }],
-            })(<Input />)}
+          <Form.Item label="密码" hasFeedback>
+            {getFieldDecorator('confirm', {
+              rules: [
+                {
+                  required: true,
+                  message: '请重复输入密码',
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
           </Form.Item>
         </Form>
       </Modal>
