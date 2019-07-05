@@ -135,15 +135,17 @@ class Department extends React.Component {
     return (
       <div>
         <div style={{backgroundColor:'white',borderRadius:'5px',padding:'1em'}}>
-          <Button type="default" onClick={this.toAdd}>
+          <Button type="primary" onClick={this.toAdd}>
             添加
           </Button>
-          <Button type="danger" onClick={this.batchDelete.bind(this)} style={{ margin: '1em' }}>
+          <Button type="danger" onClick={this.batchDelete.bind(this)} style={{ marginBottom: '0.5em',marginLeft:'0.5em' }}>
             批量删除
           </Button>
           {/* 表格 */}
           <div>
             <Table
+              bordered
+              size='small'
               rowSelection={rowSelection}
               columns={columns}
               rowKey="id"

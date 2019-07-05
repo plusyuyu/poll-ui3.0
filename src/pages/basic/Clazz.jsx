@@ -116,7 +116,7 @@ class Clazz extends React.Component {
             <Option value="lucy">Lucy</Option>
             <Option value="Yiminghe">yiminghe</Option>
           </Select>
-          <Button type="default" onClick={this.showModal} style={{ margin: '1em' }}>
+          <Button type="primary" onClick={this.showModal} style={{ marginBottom: '0.5em',marginLeft:'0.5em',marginRight:'0.5em' }}>
             添加
           </Button>
           <Button type="danger" onClick={this.batchDelete.bind(this)}>
@@ -137,6 +137,8 @@ class Clazz extends React.Component {
           </Modal>
           <div>
             <Table
+              bordered
+              size='small'
               rowSelection={rowSelection}
               columns={columns}
               rowKey="id"
