@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { query, surveyProcess } from '@/services/monitor';
+import { query, surveyProcess, stopSurvey } from '@/services/monitor';
 
 const MonitorModel = {
   namespace: 'monitor',
@@ -13,7 +13,7 @@ const MonitorModel = {
       const response = yield call(query);
       yield put({
         type: 'reloadMonitors',
-        payload: response,
+        payload: response.data.data.list,
       });
     },
     // 查询课调进度
@@ -25,11 +25,12 @@ const MonitorModel = {
         surveyprocessdata: response.data,
       });
     },
+    // 关闭课调
     *stopSurvey(_, { call, put }) {
       const response = yield call(stopSurvey, _.payload);
       message.success(response.message);
       yield put({
-        type: 'fetchCreates',
+        type: 'fetchMonitors',
         payload: response,
       });
     },
@@ -39,7 +40,7 @@ const MonitorModel = {
     reloadMonitors(state, action) {
       return {
         ...state,
-        monitors: action.payload.data,
+        monitors: action.payload,
         surveyProcessData: action.payload.surveyprocessdata,
       };
     },

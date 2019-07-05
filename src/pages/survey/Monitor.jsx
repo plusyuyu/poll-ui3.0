@@ -37,7 +37,7 @@ class Monitor extends React.Component {
       cancelText: 'No',
       onOk: () => {
         // 编写代码进行关闭
-        this.props.dispatch({ type: 'create/stopSurvey', payload: id });
+        this.props.dispatch({ type: 'monitor/stopSurvey', payload: id });
       },
       onCancel() {},
     });
