@@ -51,10 +51,6 @@ class Course extends React.Component {
   render() {
     const columns = [
       {
-        title: '编号',
-        dataIndex: 'id',
-      },
-      {
         title: '课程名称',
         dataIndex: 'name',
       },
@@ -65,6 +61,8 @@ class Course extends React.Component {
       {
         title: '操作',
         dataIndex: 'id',
+        width: 60,
+        align: 'center',
         render: (text, record) => {
           return (
             <div>
