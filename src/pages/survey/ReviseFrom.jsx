@@ -3,8 +3,8 @@ import { Form, Modal, Input, Select } from 'antd';
 import { connect } from 'dva';
 const { Option } = Select;
 
-// 添加课调表单
-class CreateForm extends React.Component {
+// 编辑课调表单
+class ReviseFrom extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -26,7 +26,7 @@ class CreateForm extends React.Component {
     // 将表单中没有出现的值做一个双向数据绑定
     getFieldDecorator('id');
     return (
-      <Modal visible={visible} title="添加课调" okText="提交" onCancel={onCancel} onOk={onCreate}>
+      <Modal visible={visible} title="编辑课调" okText="提交" onCancel={onCancel} onOk={onCreate}>
         <Form layout="vertical" {...formLayout}>
           <Form.Item label="班级">
             {getFieldDecorator('clazzId', {
@@ -108,5 +108,5 @@ export default connect(({ create }) => ({
 }))(
   Form.create({
     mapPropsToFields,
-  })(CreateForm),
+  })(ReviseFrom),
 );

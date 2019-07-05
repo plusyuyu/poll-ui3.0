@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Button, Table, Icon, Modal } from 'antd';
 import styles from '../basic/course.less';
 import CreateForm from './CreateForm';
+import ReviseFrom from './ReviseFrom';
 
 class Create extends React.Component {
   constructor(props) {
@@ -10,11 +11,16 @@ class Create extends React.Component {
     this.state = {
       visible: false,
       form: {},
+      ids: [],
     };
   }
 
   componentWillMount() {
     this.props.dispatch({ type: 'create/fetchCreates' });
+    this.props.dispatch({ type: 'create/findAllVM' });
+    this.props.dispatch({ type: 'create/findAllCourse' });
+    this.props.dispatch({ type: 'create/findAllQuestionnaire' });
+    this.props.dispatch({ type: 'create/findAllEnabled' });
   }
 
   // 取消按钮的事件处理函数
@@ -38,19 +44,43 @@ class Create extends React.Component {
     this.props.dispatch({ type: 'create/changeVisible', payload: true });
     this.setState({ form: {} });
   };
+
   // 修改
   toEdit = record => {
+    console.log('修改课调', JSON.stringify(record));
     this.setState({
       form: record,
     });
     this.props.dispatch({ type: 'create/changeVisible', payload: true });
   };
 
+  // 预览课调
+  toLook = record => {
+    this.props.dispatch({ type: 'create/changeVisible', payload: true });
+    this.setState({ form: {} });
+    console.log('预览课调', JSON.stringify(record));
+  };
+
   // 将子组件的引用在父组件中进行保存，方便后期调用
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
-
+  // 批量删除
+  batchDeleteSurveyById() {
+    let ids = this.state.ids;
+    Modal.confirm({
+      title: '确认删除选中的数据吗？',
+      content: 'Do you confirm deletion?',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        // 编写代码进行删除
+        this.props.dispatch({ type: 'create/batchDeleteSurveyById', payload: ids });
+      },
+      onCancel() {},
+    });
+  }
   // 通过id删除
   deleteSurveyById = id => {
     Modal.confirm({
@@ -67,18 +97,17 @@ class Create extends React.Component {
     });
   };
 
-  // 关闭课调
-  stopSurvey = id => {
-    // let vm = this;
+  // 开启课调
+  beginSurvey = id => {
     Modal.confirm({
-      title: '确认关闭该课调吗？',
-      content: 'Are you sure to close the survey?',
+      title: '确认开启该课调吗？',
+      content: 'Are you sure to start the survey?',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk: () => {
-        // 编写代码进行关闭
-        this.props.dispatch({ type: 'create/stopSurvey', payload: id });
+        // 编写代码进行开启
+        this.props.dispatch({ type: 'create/beginSurvey', payload: id });
       },
       onCancel() {},
     });
@@ -100,7 +129,7 @@ class Create extends React.Component {
       },
       {
         title: '讲师',
-        dataIndex: 'clazzVM.charge.nickname',
+        dataIndex: 'user.nickname',
       },
       {
         title: '问卷',
@@ -128,15 +157,15 @@ class Create extends React.Component {
               </a>
               &nbsp;
               <a title="编辑">
-                <Icon type="edit" onClick={this.toEdit.bind(this, record.id)} />
+                <Icon type="edit" onClick={this.toEdit.bind(this, record)} />
               </a>
               &nbsp;
-              <a title="关闭课调">
-                <Icon type="poweroff" onClick={this.stopSurvey.bind(this, record.id)} />
+              <a title="开启课调">
+                <Icon type="poweroff" onClick={this.beginSurvey.bind(this, record.id)} />
               </a>
               &nbsp;
               <a title="预览">
-                <Icon type="search" onClick={() => alert('预览课调')} />
+                <Icon type="search" onClick={this.toLook.bind(this, record)} />
               </a>
               &nbsp;
             </div>
@@ -147,7 +176,7 @@ class Create extends React.Component {
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        this.setState({ ids: selectedRowKeys });
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -163,16 +192,17 @@ class Create extends React.Component {
             添加
           </Button>
           &nbsp;
-          <Button className="btns" type="danger" disabled>
+          <Button className="btns" type="danger" onClick={this.batchDeleteSurveyById.bind(this)}>
             批量删除
           </Button>
         </div>
         {/* 表格内容 */}
         <div>
           <Table
+            bordered
+            rowKey="id"
             size="small"
             rowSelection={rowSelection}
-            rowKey="id"
             columns={columns}
             dataSource={this.props.create.creates}
           />
