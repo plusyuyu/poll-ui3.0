@@ -8,6 +8,7 @@ const mySurveyStatisticModel = {
   namespace: 'mySurveyStatistic',
   state: {
     mySurveyStatistics: [],
+    month:[],
     survey: {
       surveyVM: {
         average: '',
@@ -16,7 +17,6 @@ const mySurveyStatisticModel = {
         user: { nickname: '' },
         qnVM: { name: '' },
       },
-      // answers:{content:''}
       answers: [''],
     },
   },
@@ -24,18 +24,23 @@ const mySurveyStatisticModel = {
     //获取所有信息
     *fetchMySurveyStatistics(_, { call, put }) {
       const response = yield call(fetchMySurveyStatistics);
+      console.log(response.data)
       yield put({
         type: 'reloadMySurveyStatistics',
-        payload: response.data.data,
+        payload: response.data.data.list,
       });
     },
+    //按月查询
     *fetchSurveyMonth(_, { call, put }) {
       const response = yield call(fetchSurveyMonth, { month: _.payload });
+      console.log(response.data.data)
       yield put({
         type: 'reloadSurveyMonth',
         payload: response.data.data,
+
       });
     },
+    //详细信息
     *fetchSurveyDetails(_, { call, put }) {
       const response = yield call(fetchSurveyDetails, { id: _.payload });
       console.log('response', response);
@@ -62,7 +67,7 @@ const mySurveyStatisticModel = {
     reloadSurveyMonth(state, action) {
       return {
         ...state,
-        statistic: action.payload,
+        mySurveyStatistics: action.payload,
       };
     },
   },

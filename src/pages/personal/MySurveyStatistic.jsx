@@ -26,7 +26,7 @@ class MySurveyStatistic extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch({ type: 'mySurveyStatistic/fetchMySurveyStatistics' });
+    this.props.dispatch({ type: 'mySurveyStatistic/fetchMySurveyStatistics' }); 
   }
 
   downExcel(id) {
@@ -50,25 +50,34 @@ class MySurveyStatistic extends React.Component {
   };
 
   onChange = (date, dateString) => {
+
     this.props.dispatch({ type: 'mySurveyStatistic/fetchSurveyMonth', payload: dateString });
   };
 
-  onChangeMAX = value => {
+  loadMAX(){
     // this.props.mySurveyStatistic.mySurveyStatistics.forEach((item)=>{
     //   if(item.average>value){
+    //     // value=item;
     //     console.log(item)
     //   }
     // })
   };
 
-  onChangeMIN = value => {
+  loadMIN(){
     // this.props.mySurveyStatistic.mySurveyStatistics.forEach((item)=>{
     //   if(item.average<value){
     //     console.log("----"+item)
     //   }
     // })
   };
-
+  loadAverage(){
+    var sum=0;
+    console.log(this.props.mySurveyStatistic)
+    for(let i=0;i<this.props.mySurveyStatistic.length;i++){
+      sum+=this.props.mySurveyStatistic[i].average;
+    }
+    return sum;
+  }
   render() {
     const pStyle = {
       fontSize: 16,
@@ -92,9 +101,8 @@ class MySurveyStatistic extends React.Component {
             marginRight: 8,
             display: 'inline-block',
             color: 'rgba(0,0,0,0.85)',
-          }}
-        >
-          {title}:
+          }}>
+          {title}
         </p>
         {content}
       </div>
@@ -119,6 +127,8 @@ class MySurveyStatistic extends React.Component {
 
       {
         title: '操作',
+        fixed: 'right',
+        width: 50,
         render: (text, record) => {
           return (
             <div>
@@ -135,7 +145,7 @@ class MySurveyStatistic extends React.Component {
     function onChange(date, dateString) {
       console.log(date, dateString);
     }
-
+    const sum=0;
     return (
       <div className={styles.content}>
         <div className="btns">
@@ -148,14 +158,12 @@ class MySurveyStatistic extends React.Component {
             onClose={this.onClose}
             visible={this.state.visible}
           >
-            <p
-              style={{
+            <p style={{
                 ...pStyle,
                 marginBottom: 24,
                 fontWeight: 'bolder',
-              }}
-            >
-              课调预览
+              }}>
+                课调预览
             </p>
 
             {/* {JSON.stringify(this.props.mySurveyStatistic.survey)} */}
@@ -193,8 +201,12 @@ class MySurveyStatistic extends React.Component {
             </Row>
             <Divider />
             <Row>
-              <Col span={12}>
-                <DescriptionItem content={this.props.mySurveyStatistic.survey.answers.content} />
+              <Col >
+                <DescriptionItem content={this.props.mySurveyStatistic.survey.answers.map(item=>{
+                  return(
+                    <p key={item.id} value={item.id}>{item.content}</p>
+                  )
+                })} />
               </Col>
             </Row>
             <Divider />
@@ -204,42 +216,28 @@ class MySurveyStatistic extends React.Component {
           <Row gutter={16}>
             <Col span={8}>
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                <br />
-                平均分:
-                <br />
-                <br />
-                <br />
-                <br />
+                <br />平均分：{this.loadAverage()}
+                <br /><br /><br /><br />
               </Card>
             </Col>
             <Col span={8}>
               {/* onChange={this.onChangeMAX} */}
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
                 {/* {this.state.one.average} */}
-                最高分:
-                <br />
-                班級：
-                <br />
-                讲师：
-                <br />
-                课程：
-                <br />
-                问卷：
-                <br />
+                最高分:{this.loadMAX()}<br />
+                班級：<br />
+                讲师：<br />
+                课程：<br />
+                问卷：<br />
               </Card>
             </Col>
             <Col span={8}>
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                最低分：
-                <br />
-                班級：
-                <br />
-                讲师：
-                <br />
-                课程：
-                <br />
-                问卷：
-                <br />
+                最低分：<br />
+                班級：<br />
+                讲师：<br />
+                课程：<br />
+                问卷：<br />
               </Card>
             </Col>
           </Row>
@@ -247,13 +245,15 @@ class MySurveyStatistic extends React.Component {
         ,
         <div>
           <Table
+            bordered
             size="small"
             rowKey="id"
-            rowSelection={rowSelection}
+            rowSelection={{rowSelection,fixed:'left'}}
             columns={columns}
-            dataSource={this.props.mySurveyStatistic.mySurveyStatistics.list}
+            scroll={{ x: 1300 }}
+            dataSource={this.props.mySurveyStatistic.mySurveyStatistics}
           />
-          ,
+          {/* {JSON.stringify(this.props.mySurveyStatistic)} */}
         </div>
       </div>
     );

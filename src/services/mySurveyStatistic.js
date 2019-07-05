@@ -16,7 +16,7 @@ export async function fetchSurveyDetails(id) {
 }
 
 export async function fetchSurveyMonth(survey) {
-  return request('api/manager/survey/statisticsByMonth', {
+  return request('/api/manager/survey/statisticsByMonth', {
     method: 'post',
     params: survey,
     getResponse: true,

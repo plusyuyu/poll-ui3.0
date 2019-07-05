@@ -76,6 +76,8 @@ class MySurvey extends React.Component {
 
       {
         title: '操作',
+        fixed:'right',
+        width:50,
         render: (text, record) => {
           return (
             <div>
@@ -139,9 +141,10 @@ class MySurvey extends React.Component {
         </div>
         <div>
           <Table
+            bordered
             size="small"
             rowKey="id"
-            rowSelection={rowSelection}
+            rowSelection={{rowSelection,fixed:'left'}}
             columns={columns}
             dataSource={this.props.mySurvey.mySurveys}
           />
