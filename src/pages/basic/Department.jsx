@@ -4,6 +4,7 @@ import { Modal, Button, Input, Table, Icon, message, Form } from 'antd';
 import DepartmentForm from './DepartmentForm';
 
 // hello wor
+// hello world
 
 const { confirm } = Modal;
 class Department extends React.Component {
