@@ -3,11 +3,12 @@ import { Input, Button, message } from 'antd';
 import styles from './school.less';
 import { connect } from 'dva';
 const { TextArea } = Input;
-
+  
 // 保存按钮的点击事件
 const info = () => {
   message.info('成功');
 };
+
 
 class School extends React.Component {
 

@@ -1,4 +1,4 @@
-import { query, toDelete, batchDelete } from '@/services/clazz';
+import { query, toDelete, batchDelete,toSaveOrUpdate} from '@/services/clazz';
 
 const ClazzModel = {
   namespace: 'clazz',
@@ -24,6 +24,13 @@ const ClazzModel = {
     // 批量删除
     *batchClazz(_, { call, put }) {
       const response = yield call(batchDelete, _.payload);
+      yield put({
+        type: 'fetchClazz',
+      });
+    },
+    // 保存或更新
+    *saveClazz(_, { call, put }) {
+      const response = yield call(toSaveOrUpdate, _.payload);
       yield put({
         type: 'fetchClazz',
       });

@@ -17,3 +17,11 @@ export async function batchDelete(ids) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
   });
 }
+
+// 保存或更新接口
+export async function toSaveOrUpdate(param) {
+  return request('/api/manager/clazz/saveOrUpdateClazz', {
+    method: 'post',
+    params:param
+  });
+}

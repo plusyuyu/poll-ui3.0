@@ -1,5 +1,6 @@
 import { query } from '@/services/school';
 
+
 const SchoolModel = {
   namespace: 'school',
   state: {
