@@ -6,12 +6,19 @@ export async function query() {
 }
 
 export async function toDelete(id) {
-   return request('/api/manager/questionnaire/deleteQuestionnaireById?id='+id);
+  return request('/api/manager/questionnaire/deleteQuestionnaireById?id=' + id);
 }
 export async function toDeleteAll(param) {
   return request('/api/manager/questionnaire/batchDeleteQuestion', {
     method: 'post',
-    data:qs.stringify(param, { arrayFormat: 'repeat' }),
+    data: qs.stringify(param, { arrayFormat: 'repeat' }),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+  });
+}
+export async function addOrupdate(param) {
+  return request('/api/manager/questionnaire/saveOrUpdateQuestionnaire', {
+    method: 'post',
+    data: qs.stringify(param, { arrayFormat: 'repeat' }),
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
   });
 }
