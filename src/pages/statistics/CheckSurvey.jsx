@@ -102,6 +102,8 @@ class CheckSurvey extends React.Component {
       {
         title: '操作',
         dataIndex: '',
+        fixed: 'right',
+        width: 100,
         render: (text, record) => {
           if (record.status === '审核通过') {
             return (
@@ -142,9 +144,10 @@ class CheckSurvey extends React.Component {
         <Table
           bordered
           rowKey="id"
-          rowSelection={rowSelection}
+          rowSelection={{rowSelection,fixed:'left'}}
           columns={columns}
           dataSource={this.props.checkSurvey.checksurveys.list}
+          scroll={{ x: 1300 }}
         />
         <Drawer
           width={640}
