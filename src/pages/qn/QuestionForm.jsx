@@ -72,7 +72,7 @@ class QuestionForm extends React.Component {
         </Form.Item>
         <Form.Item label="题目选项">
           {getFieldDecorator('options', {
-            rules: [{ required: true, message: 'Please select your gender!' }],
+            rules: [{}],
           })(
             <Table
               size="small"
