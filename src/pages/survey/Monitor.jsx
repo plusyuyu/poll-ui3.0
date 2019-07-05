@@ -12,18 +12,6 @@ class Monitor extends React.Component {
   // 查看课调进度
   surveyProcess = id => {
     this.props.dispatch({ type: 'monitor/surveyProcess', payload: id });
-    // Modal.confirm({
-    //     title: '课调进度',
-    //     content: '已经有 '+ this.props.monitor.surveyProcessData +'人已经提交了答卷',
-    //     // okText: 'Yes',
-    //     // okType: 'danger',
-    //     cancelText: 'No',
-    //     onOk: () => {
-    //         // 编写代码进行删除
-    //     },
-    //     onCancel() {
-    //     },
-    // });
   };
 
   // 关闭课调
@@ -39,7 +27,7 @@ class Monitor extends React.Component {
         // 编写代码进行关闭
         this.props.dispatch({ type: 'monitor/stopSurvey', payload: id });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -75,6 +63,8 @@ class Monitor extends React.Component {
       },
       {
         title: '操作',
+				fixed: 'right',
+				width: 100,
         render: (text, record) => {
           return (
             <div>
@@ -94,7 +84,7 @@ class Monitor extends React.Component {
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -107,11 +97,14 @@ class Monitor extends React.Component {
         {/* 表格内容 */}
         <div>
           <Table
-            size="small"
-            rowSelection={rowSelection}
+						bordered
             rowKey="id"
+            size="small"
+            rowSelection={{rowSelection,fixed:'left'}}
             columns={columns}
             dataSource={this.props.monitor.monitors}
+						scroll={{ x: 1300 }}
+
           />
         </div>
       </div>

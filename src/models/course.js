@@ -6,6 +6,7 @@ const CourseModel = {
   state: {
     courses: [],
     visible: false,
+    revisevisible: false,
   },
   effects: {
     // 获取所有课程信息
@@ -24,7 +25,7 @@ const CourseModel = {
     },
   },
   reducers: {
-    // 更改模态框的显示状态
+    // 更改添加课调模态框的显示状态
     changeVisible(state, action) {
       return {
         ...state,
