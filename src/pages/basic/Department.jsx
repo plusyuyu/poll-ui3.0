@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Modal, Button, Input, Table, Icon, message, Form } from 'antd';
 import DepartmentForm from './DepartmentForm';
 
-// 测试提交
+// hello world
 
 const { confirm } = Modal;
 class Department extends React.Component {
