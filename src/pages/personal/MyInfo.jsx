@@ -16,27 +16,26 @@ class MyInfo extends React.Component {
   }
   // 取消按钮的事件处理函数
   handleCancel = () => {
-    this.props.dispatch({ type: 'user/changeVisible', payload: false });
+    this.props.dispatch({ type: 'MyInfo/changeVisible', payload: false });
   };
 
   // 确认按钮的事件处理函数
   handleCreate = () => {
-    const form = this.formRef.props.form;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      this.props.dispatch({ type: 'user/saveOrUpdateUser', payload: values });
-    });
+    // const form = this.formRef.props.form;
+    // form.validateFields((err, values) => {
+    //   if (err) {
+    //     return;
+    //   }
+    //   this.props.dispatch({ type: 'user/saveOrUpdateUser', payload: values });
+    // });
   };
   // 更改头像
   editPhoto = () => {};
   // 更改密码
-  pauseHandle = () => {
-    this.props.dispatch({ type: 'user/changeVisible', payload: true });
-    this.setState({ form: {} });
-  };
-
+  editPwd = (record) => {
+   this.props.dispatch({ type: 'MyInfo/changeVisible', payload: true});
+  
+  }
   // 更新
   update() {}
 
@@ -107,7 +106,7 @@ class MyInfo extends React.Component {
           <MyInfoForm
             initData={this.state.form}
             wrappedComponentRef={this.saveFormRef}
-            // visible={this.props.myinfo.visible}
+            visible={this.props.MyInfo.visible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}
           />

@@ -25,35 +25,35 @@ class MyInfoForm extends React.Component {
     const { Option } = Select;
     // 将表单中没有出现的值做一个双向数据绑定
     getFieldDecorator('id');
-    getFieldDecorator('password');
+    
     return (
       <Modal visible={visible} title="更改密码" okText="提交" onCancel={onCancel} onOk={onCreate}>
         <Form layout="vertical" {...formLayout}>
-          <Form.Item label="密码" hasFeedback>
+       
+
+          <Form.Item label="密码" hasFeedback >
             {getFieldDecorator('password', {
               rules: [
                 {
-                  required: true,
-                  message: '请输入新密码',
-                },
-                {
-                  validator: this.validateToNextPassword,
-                },
-              ],
-            })(<Input.Password />)}
-          </Form.Item>
-          <Form.Item label="密码" hasFeedback>
-            {getFieldDecorator('confirm', {
-              rules: [
-                {
-                  required: true,
-                  message: '请重复输入密码',
+                  required: true
                 },
                 {
                   validator: this.compareToFirstPassword,
                 },
               ],
-            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+            })(<Input.Password placeholder="请输入密码" />)}
+          </Form.Item>
+          <Form.Item label="密码" hasFeedback>
+            {getFieldDecorator('passward', {
+              rules: [
+                {
+                  required: true
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="请重复输入密码"/>)}
           </Form.Item>
         </Form>
       </Modal>
