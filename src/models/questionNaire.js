@@ -1,10 +1,10 @@
-import {query,toDelete,toDeleteAll} from "@/services/questionNaire"
+import { query, toDelete, toDeleteAll, addOrupdate } from '@/services/questionNaire';
 
 const QuestionNaireModel = {
-  namespace:"questionNaire",
+  namespace: 'questionNaire',
   state: {
     questionNaires: [],
-    visible:false
+    visible: false,
   },
   effects: {
     // 获取所有课程信息
@@ -23,16 +23,20 @@ const QuestionNaireModel = {
       const response = yield call(toDeleteAll, _.payload);
       yield put({ type: 'fetchQuestionNaire' });
     },
+    *addOrUpdate(_, { call, put }) {
+      const response = yield call(addOrupdate, _.payload);
+      yield put({ type: 'fetchQuestionNaire' });
+    },
   },
-  reducers:{
+  reducers: {
     // 更新状态中的courses
     reloadQuestionNaire(state, action) {
       return {
         ...state,
-        questionNaires:action.payload.data
-      }
+        questionNaires: action.payload.data,
+      };
     },
-  }
-}
+  },
+};
 
 export default QuestionNaireModel;

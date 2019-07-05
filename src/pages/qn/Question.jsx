@@ -20,6 +20,7 @@ class Question extends React.Component {
 
   componentWillMount() {
     this.props.dispatch({ type: 'question/fetchQuestion' });
+    console.log('======', this.props.question.questions);
   }
 
   onChange = e => {
@@ -121,7 +122,7 @@ class Question extends React.Component {
             );
           })}
           <Modal
-            title="Basic Modal"
+            title="题库"
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}

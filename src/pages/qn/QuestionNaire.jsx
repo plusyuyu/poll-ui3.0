@@ -14,26 +14,31 @@ class QuestionNaire extends React.Component {
       visible: false,
       form: {},
       selectedRowKeys: [],
+      allQuestion: {},
     };
   }
-
-  edit = (data, event) => {
-    alert(1);
-    console.log(data);
-  };
 
   showModal = () => {
     this.setState({
       visible: true,
       form: {},
+      allQuestion: {},
     });
   };
-
+  edit = record => {
+    console.log(record);
+    this.setState({
+      visible: true,
+      allQuestion: record,
+    });
+  };
   handleOk = e => {
     e.preventDefault();
-    this.form.validateFields((err, values) => {
+    this.formRef.props.form.validateFields((err, values) => {
       if (!err) {
+        values.questionIds = this.formRef.state.ids;
         console.log('表单绑定的数据：', values);
+        this.props.dispatch({ type: 'questionNaire/addOrUpdate', payload: values });
       }
     });
     this.setState({
@@ -42,7 +47,6 @@ class QuestionNaire extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -52,8 +56,10 @@ class QuestionNaire extends React.Component {
   }
   //获取表单子组件的DOM
   getForm = form => {
-    this.form = form;
+    console.log(form);
+    this.formRef = form;
   };
+
   toDelete = (id, event) => {
     confirm({
       title: '提示',
@@ -144,12 +150,16 @@ class QuestionNaire extends React.Component {
           dataSource={this.props.questionNaire.questionNaires}
         ></Table>
         <Modal
-          title="Basic Modal"
+          title="问卷"
+          width={'1500px'}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <QuestionNaireForm student={this.state.form} ref={this.getForm} />
+          <QuestionNaireForm
+            questionNairee={this.state.allQuestion}
+            wrappedComponentRef={this.getForm}
+          />
         </Modal>
       </div>
     );
