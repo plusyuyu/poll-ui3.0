@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import { Modal, Button, Input, Table, Icon, message, Form } from 'antd';
 import DepartmentForm from './DepartmentForm';
 
+// 测试提交
+
 const { confirm } = Modal;
 class Department extends React.Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class Department extends React.Component {
       visible: false,
       ids: [],
       department: {},
-    };  
+    };
   }
 
   // ref函数，使子组件能拿到父组件的值
@@ -27,7 +29,7 @@ class Department extends React.Component {
       if (!err) {
         // 如果没有错误，则打印填入输入框的内容，为values
         // console.log(values);
-        this.props.dispatch({ type: 'department/saveDepartment',payload:values });
+        this.props.dispatch({ type: 'department/saveDepartment', payload: values });
       }
     });
     // 2.与后台交互完成保存或者更新
@@ -84,9 +86,7 @@ class Department extends React.Component {
     this.props.dispatch({ type: 'department/batchDepartment', payload: this.state.ids });
   }
 
- 
   render() {
-
     // 定义表格的头部
     const columns = [
       {
@@ -129,23 +129,27 @@ class Department extends React.Component {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(selectedRowKeys,'-----');
         this.setState({ ids: selectedRowKeys });
-      }
+      },
     };
-    
+
     return (
       <div>
-        <div style={{backgroundColor:'white',borderRadius:'5px',padding:'1em'}}>
+        <div style={{ backgroundColor: 'white', borderRadius: '5px', padding: '1em' }}>
           <Button type="primary" onClick={this.toAdd}>
             添加
           </Button>
-          <Button type="danger" onClick={this.batchDelete.bind(this)} style={{ marginBottom: '0.5em',marginLeft:'0.5em' }}>
+          <Button
+            type="danger"
+            onClick={this.batchDelete.bind(this)}
+            style={{ marginBottom: '0.5em', marginLeft: '0.5em' }}
+          >
             批量删除
           </Button>
           {/* 表格 */}
           <div>
             <Table
               bordered
-              size='small'
+              size="small"
               rowSelection={rowSelection}
               columns={columns}
               rowKey="id"
