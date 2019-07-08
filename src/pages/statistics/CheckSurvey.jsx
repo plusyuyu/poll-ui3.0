@@ -144,7 +144,8 @@ class CheckSurvey extends React.Component {
         <Table
           bordered
           rowKey="id"
-          rowSelection={{rowSelection,fixed:'left'}}
+          size="small"
+          rowSelection={{ rowSelection, fixed: 'left' }}
           columns={columns}
           dataSource={this.props.checkSurvey.checksurveys.list}
           scroll={{ x: 1300 }}

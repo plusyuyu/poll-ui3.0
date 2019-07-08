@@ -26,18 +26,23 @@ class MySurveyStatistic extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch({ type: 'mySurveyStatistic/fetchMySurveyStatistics' }); 
+    this.props.dispatch({ 
+      type: 'mySurveyStatistic/fetchMySurveyStatistics',payload:{page:0,pageSize:10,statuses:"审核通过"}});
+      // this.props.dispatch({type: 'mySurveyStatistic/fetchSurveyCard' , payload:id }); 
   }
 
-  downExcel(id) {
+  downExcel(record) {
     window.open(
       (window.location.href =
-        'http://134.175.154.93:9999/manager/result/downLoadSurveyResultById?id=' + id),
+        'http://134.175.154.93:9999/manager/result/downLoadSurveyResultById?id=' + record.id),
     );
   }
 
   showDrawer(record) {
-    this.props.dispatch({ type: 'mySurveyStatistic/fetchSurveyDetails', payload: record.id });
+    this.props.dispatch({ 
+      type: 'mySurveyStatistic/fetchSurveyDetails',
+       payload: record.id 
+      });
     this.setState({
       visible: true,
     });
@@ -50,34 +55,64 @@ class MySurveyStatistic extends React.Component {
   };
 
   onChange = (date, dateString) => {
-
-    this.props.dispatch({ type: 'mySurveyStatistic/fetchSurveyMonth', payload: dateString });
+    this.props.dispatch({ 
+      type: 'mySurveyStatistic/fetchMySurveyStatistics',
+      payload: { page: 0, pageSize: 10, statuses: '审核通过', month:dateString },
+    });
   };
 
-  loadMAX(){
-    // this.props.mySurveyStatistic.mySurveyStatistics.forEach((item)=>{
-    //   if(item.average>value){
-    //     // value=item;
-    //     console.log(item)
-    //   }
-    // })
+  onCloseX = () => {
+    this.props.dispatch({ 
+      type: 'mySurveyStatistic/fetchMySurveyStatistics' 
+    }); 
+    this.setState({
+      visible: false,
+    });
   };
 
-  loadMIN(){
-    // this.props.mySurveyStatistic.mySurveyStatistics.forEach((item)=>{
-    //   if(item.average<value){
-    //     console.log("----"+item)
-    //   }
-    // })
+  loadCard=(id)=>{
+    // this.props.dispatch({ 
+    //   type: 'mySurveyStatistic/fetchSurveyCard' ,
+    //   payload:id 
+    // }); 
+
+    var max=0;
+    var min;
+    var maxId;
+    var minId;
+    var array=this.props.mySurveyStatistic.mySurveyStatistics;
+
+    for(let i=0;i<array.length;i++){
+      if(max<array[i].average){
+        max=array[i].average;
+        maxId=array[i].id;
+      }
+      min=array[i].average;
+      minId=array[i].id;
+    }
+   
+    for(let j=array.length-1;j>array.length;j--){
+      if(min>array[j].average){
+        min=array[j].average;
+        minId=array[i].id;     
+      }
+    }
+  
+    var obj=[max,min]
+    // console.log(maxId,minId)
+    return obj;
   };
+
+ 
   loadAverage(){
     var sum=0;
-    console.log(this.props.mySurveyStatistic)
-    for(let i=0;i<this.props.mySurveyStatistic.length;i++){
-      sum+=this.props.mySurveyStatistic[i].average;
+    var array1=this.props.mySurveyStatistic.mySurveyStatistics;
+    for(let i=0;i<array1.length;i++){
+      sum+=array1[i].average;
     }
-    return sum;
+    return (sum/array1.length).toFixed(2);
   }
+
   render() {
     const pStyle = {
       fontSize: 16,
@@ -134,7 +169,7 @@ class MySurveyStatistic extends React.Component {
             <div>
               <Icon type="eye" onClick={this.showDrawer.bind(this, record)} />
               &nbsp;
-              <Icon type="download" onClick={this.downExcel.bind(this, record.id)} />
+              <Icon type="download" onClick={this.downExcel.bind(this, record)} />
             </div>
           );
         },
@@ -149,8 +184,15 @@ class MySurveyStatistic extends React.Component {
     return (
       <div className={styles.content}>
         <div className="btns">
-          <MonthPicker onChange={this.onChange} placeholder="Select month" />
+          {/* 按月查询 */}
+          {/* {JSON.stringify(this.props.mySurveyStatistic.mySurveyStatistics)} */}
+          <MonthPicker 
+            onChange={this.onChange} 
+            onCloseX={this.onCloseX} 
+            placeholder="Select month" 
+            />
           <br />
+          {/* 抽屉 */}
           <Drawer
             width={640}
             placement="right"
@@ -212,6 +254,7 @@ class MySurveyStatistic extends React.Component {
             <Divider />
           </Drawer>
         </div>
+        {/* 卡片 */}
         <div style={{ padding: '10px' }}>
           <Row gutter={16}>
             <Col span={8}>
@@ -221,11 +264,9 @@ class MySurveyStatistic extends React.Component {
               </Card>
             </Col>
             <Col span={8}>
-              {/* onChange={this.onChangeMAX} */}
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                {/* {this.state.one.average} */}
-                最高分:{this.loadMAX()}<br />
-                班級：<br />
+                最高分:{this.loadCard()[0]}<br />
+                班級：{this.props.mySurveyStatistic.max.clazzVM.name}<br />
                 讲师：<br />
                 课程：<br />
                 问卷：<br />
@@ -233,7 +274,7 @@ class MySurveyStatistic extends React.Component {
             </Col>
             <Col span={8}>
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                最低分：<br />
+                最低分：{this.loadCard()[1]}<br />
                 班級：<br />
                 讲师：<br />
                 课程：<br />
@@ -242,7 +283,7 @@ class MySurveyStatistic extends React.Component {
             </Col>
           </Row>
         </div>
-        ,
+        {/* 表格 */}
         <div>
           <Table
             bordered
@@ -253,7 +294,6 @@ class MySurveyStatistic extends React.Component {
             scroll={{ x: 1300 }}
             dataSource={this.props.mySurveyStatistic.mySurveyStatistics}
           />
-          {/* {JSON.stringify(this.props.mySurveyStatistic)} */}
         </div>
       </div>
     );

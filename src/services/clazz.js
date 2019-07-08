@@ -1,8 +1,15 @@
 import request from '@/utils/request';
 /* 封装所有的异步请求 */
 // 查询接口
-export async function query() {
+export async function queryClazz() {
   return request('/api/manager/clazz/findAll');
+}
+
+// 过滤接口
+export async function queryClazzVM(param) {
+  return request('/api/manager/clazz/queryClazzVM',{
+    params:param
+  });
 }
 
 // 删除接口

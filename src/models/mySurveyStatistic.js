@@ -1,14 +1,13 @@
 import {
   fetchMySurveyStatistics,
-  fetchSurveyMonth,
   fetchSurveyDetails,
+  fetchSurveyCard
 } from '@/services/mySurveyStatistic';
 
 const mySurveyStatisticModel = {
   namespace: 'mySurveyStatistic',
   state: {
     mySurveyStatistics: [],
-    month:[],
     survey: {
       surveyVM: {
         average: '',
@@ -19,25 +18,38 @@ const mySurveyStatisticModel = {
       },
       answers: [''],
     },
+    max:{
+      average:'',
+      clazzVM: { name: '' },
+      user: { nickname: '' },
+      course: { name: '' },
+      qnVM: { name: '' },
+    },
+    min:{
+      average:'',
+      clazzVM: { name: '' },
+      user: { nickname: '' },
+      course: { name: '' },
+      qnVM: { name: '' },
+    }
   },
   effects: {
     //获取所有信息
     *fetchMySurveyStatistics(_, { call, put }) {
-      const response = yield call(fetchMySurveyStatistics);
+      const response = yield call(fetchMySurveyStatistics,_.payload);
       console.log(response.data)
       yield put({
         type: 'reloadMySurveyStatistics',
         payload: response.data.data.list,
       });
     },
-    //按月查询
-    *fetchSurveyMonth(_, { call, put }) {
-      const response = yield call(fetchSurveyMonth, { month: _.payload });
-      console.log(response.data.data)
+    //卡片详细信息
+    *fetchSurveyCard(_, { call, put }) {
+      const response = yield call(fetchSurveyCard, { id: _.payload });
+      console.log('response', response);
       yield put({
-        type: 'reloadSurveyMonth',
-        payload: response.data.data,
-
+        type: 'reloadSurveyCard',
+        payload: response.data.list,
       });
     },
     //详细信息
@@ -46,7 +58,7 @@ const mySurveyStatisticModel = {
       console.log('response', response);
       yield put({
         type: 'reloadSurveyDetails',
-        payload: response.data,
+        payload: response.data.list,
       });
     },
   },
@@ -64,10 +76,11 @@ const mySurveyStatisticModel = {
         survey: action.payload,
       };
     },
-    reloadSurveyMonth(state, action) {
+    reloadSurveyCard(state, action) {
       return {
         ...state,
-        mySurveyStatistics: action.payload,
+        max: action.payload,
+        // min: action.payload
       };
     },
   },
