@@ -23,7 +23,7 @@ class AllSurvey extends React.Component {
       isopen: false,
       time: null,
       clazzId: null,
-      teacherId: null,
+      userId: null,
     };
   }
   handlePanelChange = value => {
@@ -34,7 +34,7 @@ class AllSurvey extends React.Component {
 
     this.props.dispatch({
       type: 'allSurvey/fetchAllSurvey',
-      payload: { page: 0, pageSize: 10, statuses: '审核通过', year: value._d.getFullYear() },
+      payload: { page: 0, pageSize: 10, statuses: '审核通过', year: value._d.getFullYear(),clazzId:this.state.clazzId,userId:this.state.userId },
     });
   };
   handleOpenChange = status => {
@@ -95,6 +95,7 @@ class AllSurvey extends React.Component {
         statuses: '审核通过',
         year: this.state.time._d.getFullYear(),
         clazzId: record,
+        userId:this.state.userId
       },
     });
   };
@@ -112,7 +113,7 @@ class AllSurvey extends React.Component {
       },
     });
     this.setState({
-      teacherId: record,
+      userId: record,
     });
   };
   render() {
@@ -293,20 +294,16 @@ class AllSurvey extends React.Component {
             </Col>
           </Row>
           <Divider />
-          <Row>
-            <Col>
-              <DescriptionItem
-                content={this.props.allSurvey.survey.answers.map(item => {
-                  return (
-                    <p key={item.id} value={item.id}>
-                      {item.content}
-                    </p>
-                  );
-                })}
-              />
-            </Col>
-          </Row>
-          <Divider />
+            <Row>
+              <Col >
+                <DescriptionItem content={this.props.allSurvey.survey.answers.map(item=>{
+                  return(
+                    <p key={item.id} value={item.id}>{item.content}</p>
+                  )
+                })} />
+              </Col>
+            </Row>
+            <Divider />
         </Drawer>
       </div>
     );

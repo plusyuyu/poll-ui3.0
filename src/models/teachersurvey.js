@@ -4,6 +4,7 @@ export default {
   namespace: 'teacherSurvey',
   state: {
     teacher: [],
+    user:[],
     list: { data: {} },
   },
   effects: {
@@ -15,6 +16,15 @@ export default {
         status: '审核通过',
       });
       yield put({ type: 'reloadTeacherSurvey', payload: response.data.data });
+    },
+    *fetchUserSurvey(_, { call, put }) {
+      const response = yield call(teacherSurvey, {
+        month: _.payload,
+        page: 0,
+        pageSize: 100,
+        status: '审核通过',
+      });
+      yield put({ type: 'reloadUserSurvey', payload: response.data.data });
     },
     *fetchQuerySurvey(_, { call, put }) {
       const response = yield call(queryTeacherSurvey, {
@@ -28,6 +38,9 @@ export default {
     },
     *setTeacher(action,{call,put}){
       yield put({type:'reloadTeacherSurvey',payload:action.payload});
+    },
+    *setUser(action,{call,put}){
+      yield put({type:'reloadUserSurvey',payload:action.payload});
     }
   },
   reducers: {
@@ -35,6 +48,12 @@ export default {
       return {
         ...state,
         teacher: action.payload,
+      };
+    },
+    reloadUserSurvey(state, action) {
+      return {
+        ...state,
+        user: action.payload,
       };
     },
     reloadQuerySurvey(state, action) {

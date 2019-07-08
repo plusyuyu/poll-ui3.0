@@ -9,45 +9,52 @@ class TeacherSurvey extends React.Component {
     super(props);
     this.state = {
       date: '',
+
     };
   }
   onChange = (date, dateString) => {
     this.props.dispatch({ type: 'teacherSurvey/fetchTeacherSurvey', payload: dateString });
+    this.props.dispatch({ type: 'teacherSurvey/fetchUserSurvey', payload: dateString });
     this.setState({
       date: dateString,
     });
   };
   onChange1 = value => {
-    let arr=[];
-   
+    var arr1=[];
+    var arr2=[];
+    var arr3=[];
     if(this.state.date!="")
     {
-      if(value>=4.0){
-       
-       this.props.teacherSurvey.teacher.forEach((item)=>{
+        this.props.teacherSurvey.teacher.forEach((item)=>{
+
           if(item.min>=4.0){
-            arr.push(item);
-          }
-       })
-       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
        
-      }else if(value<=3.5){
-        arr=[];
-        this.props.teacherSurvey.teacher.forEach((item)=>{
-          if(item.max<=3.5){
-            arr.push(item);
-          }
-       })
-       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
-      }else{
-        arr=[];
-        this.props.teacherSurvey.teacher.forEach((item)=>{
-          if(item.min>=3.5&&item.max<=4.0){
-            arr.push(item);
-          }
-       })
-       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
-        }
+          
+            arr1.push(item);
+            //this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
+            
+           }else if(item.max<=3.5){
+             
+             arr2.push(item);
+            //this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
+           }else{
+             arr3.push(item);
+           }
+
+
+        })
+    }
+    
+    if(value>=4.0){
+       
+      
+      this.props.dispatch({ type: 'teacherSurvey/setUser', payload: arr1 });
+      
+     }else if(value<=3.5){
+
+      this.props.dispatch({ type: 'teacherSurvey/setUser', payload: arr2 });
+     }else{
+      this.props.dispatch({ type: 'teacherSurvey/setUser', payload: arr3 });
      }
 };
 
@@ -161,7 +168,7 @@ class TeacherSurvey extends React.Component {
           rowKey="id"
           rowSelection={{ rowSelection, fixed: 'left' }}
           columns={columns}
-          dataSource={this.props.teacherSurvey.teacher}
+          dataSource={this.props.teacherSurvey.user}
           style={{ marginTop: '10px' }}
         />
         <Modal
