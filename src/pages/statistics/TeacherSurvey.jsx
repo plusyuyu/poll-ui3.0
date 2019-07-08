@@ -18,15 +18,38 @@ class TeacherSurvey extends React.Component {
     });
   };
   onChange1 = value => {
-    console.log(value);
-    this.props.teacherSurvey.teacher.forEach(item => {
-      if (item.average > value) {
-        console.log(item);
-      } else if (item.average < value) {
-        console.log('----' + item);
-      }
-    });
-  };
+    let arr=[];
+   
+    if(this.state.date!="")
+    {
+      if(value>=4.0){
+       
+       this.props.teacherSurvey.teacher.forEach((item)=>{
+          if(item.min>=4.0){
+            arr.push(item);
+          }
+       })
+       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
+       
+      }else if(value<=3.5){
+        arr=[];
+        this.props.teacherSurvey.teacher.forEach((item)=>{
+          if(item.max<=3.5){
+            arr.push(item);
+          }
+       })
+       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
+      }else{
+        arr=[];
+        this.props.teacherSurvey.teacher.forEach((item)=>{
+          if(item.min>=3.5&&item.max<=4.0){
+            arr.push(item);
+          }
+       })
+       this.props.dispatch({ type: 'teacherSurvey/setTeacher', payload: arr });
+        }
+     }
+};
 
   lookDetails = record => {
     this.setState({
@@ -114,6 +137,7 @@ class TeacherSurvey extends React.Component {
     };
     return (
       <div className={styles.content}>
+        {/* {JSON.stringify(this.props)} */}
         <MonthPicker onChange={this.onChange} placeholder="Select month" />
         <Select
           showSearch
