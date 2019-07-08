@@ -5,16 +5,56 @@ import styles from './mySurvey.less';
 
 
 class MySurvey extends React.Component {
-  state = { visible: false};
-
-  componentWillMount() {
-    this.props.dispatch({ type: 'mySurvey/fetchMySurveys' });
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+      isopen: false,
+      time: null,
+    };
   }
 
-  downExcel(id) {}
+  handlePanelChange = value => {
+    this.setState({
+      time: value,
+      isopen: false,
+    });
+    this.props.dispatch({
+      type: 'mySurvey/fetchMySurveys',
+      payload: { page: 0, pageSize: 10, statuses: '审核通过', year: value._d.getFullYear() },
+    });
+  }
+
+
+
+  handleOpenChange = status => {
+    // console.log(status)
+    if (status) {
+      this.setState({ isopen: true });
+    } else {
+      this.setState({ isopen: false });
+    }
+  };
+
+  clearValue = () => {
+    this.setState({
+      time: null,
+    });
+  };
+
+  componentWillMount() {
+    this.props.dispatch({ type: 'mySurvey/fetchMySurveys',payload:{page:0,pageSize:10,statuses:"审核通过"}});
+  }
+
+  downExcel(record) {
+    window.open(
+      (window.location.href =
+        'http://134.175.154.93:9999/manager/result/downLoadSurveyResultById?id=' + record.id),
+      );
+  }
 
   showDrawer (record) {
-    this.props.dispatch({ type: 'mySurvey/setSurvey', payload: record });
+    this.props.dispatch({ type: 'mySurvey/fetchSurveyDetails', payload: record.id });
     this.setState({
       visible: true,
     });
@@ -51,7 +91,7 @@ class MySurvey extends React.Component {
             color: 'rgba(0,0,0,0.85)',
           }}
         >
-          {title}:
+          {title}
         </p>
         {content}
       </div>
@@ -99,9 +139,16 @@ class MySurvey extends React.Component {
     return (
       <div className={styles.content}>
         <div className="btns">
-          {/* <Button >选择年度</Button><br/>   */}
-          <DatePicker mode="year" format="YYYY" onChange={onChange} placeholder="Select month" /><br />
-          {/* <Button type="primary" onClick={this.downExcel}>导出</Button> */}
+        <DatePicker
+          value={this.state.time}
+          open={this.state.isopen}
+          mode="year"
+          placeholder="请选择年份"
+          format="YYYY"
+          onOpenChange={this.handleOpenChange}
+          onPanelChange={this.handlePanelChange}
+          onChange={this.clearValue}
+        />
           <Drawer
           width={640}
           placement="right"
@@ -113,7 +160,6 @@ class MySurvey extends React.Component {
           style={{ 
             ...pStyle, 
             marginBottom: 24,
-            // marginTop:'5%',
             fontWeight:'bolder',
              }}
              >课调预览
@@ -121,22 +167,32 @@ class MySurvey extends React.Component {
     
           <Row>
             <Col span={12}>
-              <DescriptionItem title="班级" content={survey.clazzVM.name}/>
+              <DescriptionItem title="班级" content={survey.surveyVM.clazzVM.name}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="讲师" content={survey.user.nickname} />
+              <DescriptionItem title="讲师" content={survey.surveyVM.user.nickname} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="课程" content={survey.course.name} />
+              <DescriptionItem title="课程" content={survey.surveyVM.course.name} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="问卷" content={survey.qnVM.name} />
+              <DescriptionItem title="问卷" content={survey.surveyVM.qnVM.name} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="平均分" content={survey.average} />
+              <DescriptionItem title="平均分" content={survey.surveyVM.average} />
             </Col>
           </Row>
           <Divider />
+          <Row>
+              <Col >
+                <DescriptionItem content={survey.answers.map(item=>{
+                  return(
+                    <p key={item.id} value={item.id}>{item.content}</p>
+                  )
+                })} />
+              </Col>
+            </Row>
+            <Divider />
         </Drawer>
         </div>
         <div>
@@ -146,9 +202,9 @@ class MySurvey extends React.Component {
             rowKey="id"
             rowSelection={{rowSelection,fixed:'left'}}
             columns={columns}
+            scroll={{ x: 1300 }}
             dataSource={this.props.mySurvey.mySurveys}
           />
-          ,
         </div>
       </div>
     );
