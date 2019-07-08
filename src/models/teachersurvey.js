@@ -26,6 +26,9 @@ export default {
       });
       yield put({ type: 'reloadQuerySurvey', payload: response.data });
     },
+    *setTeacher(action,{call,put}){
+      yield put({type:'reloadTeacherSurvey',payload:action.payload});
+    }
   },
   reducers: {
     reloadTeacherSurvey(state, action) {
