@@ -15,7 +15,6 @@ export async function query() {
 
 /* 保存或更新课调 */
 export async function saveOrUpdateCreate(param) {
-  alert(JSON.stringify(param));
   return request('/api/manager/survey/saveOrUpdateSurvey', {
     method: 'post',
     data: qs.stringify(param),

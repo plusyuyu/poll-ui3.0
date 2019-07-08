@@ -63,21 +63,36 @@ class Monitor extends React.Component {
       },
       {
         title: '操作',
-				fixed: 'right',
-				width: 100,
-        render: (text, record) => {
-          return (
-            <div>
-              <a title="查看进度">
-                <Icon type="search" onClick={this.surveyProcess.bind(this, record.id)} />
-              </a>
-              &nbsp;
+        fixed: 'right',
+        width: 100,
+        render: (record) => {
+          if (record.status === '开启') {
+            return (
+              <div>
+                <a title="查看进度">
+                  <Icon type="search" onClick={this.surveyProcess.bind(this, record.id)} />
+                </a>
+                &nbsp;
               <a title="关闭课调">
-                <Icon type="poweroff" onClick={this.stopSurvey.bind(this, record.id)} />
-              </a>
-              &nbsp;
+                  <Icon type="poweroff" onClick={this.stopSurvey.bind(this, record.id)} />
+                </a>
+                &nbsp;
             </div>
-          );
+            );
+          } else {
+            return (
+              <div>
+                <a title="查看进度">
+                  <Icon type="search" onClick={this.surveyProcess.bind(this, record.id)} />
+                </a>
+                &nbsp;
+              <a title="关闭课调"  style={{ cursor: 'not-allowed', disabled: 'true' }}>
+                  <Icon type="poweroff"/>
+                </a>
+                &nbsp;
+            </div>
+            );
+          }
         },
       },
     ];
@@ -97,13 +112,13 @@ class Monitor extends React.Component {
         {/* 表格内容 */}
         <div>
           <Table
-						bordered
+            bordered
             rowKey="id"
             size="small"
-            rowSelection={{rowSelection,fixed:'left'}}
+            rowSelection={{ rowSelection, fixed: 'left' }}
             columns={columns}
             dataSource={this.props.monitor.monitors}
-						scroll={{ x: 1300 }}
+            scroll={{ x: 1300 }}
 
           />
         </div>

@@ -3,7 +3,7 @@ import request from '@/utils/request';
 
 /* 查询符合条件的课调 */
 export async function query() {
-  const params = { page: 0, pageSize: 10, statuses: ['未开启', '开启'] };
+  const params = { page: 0, pageSize: 10, statuses: ['未审核','开启'] };
   return request('/api/manager/survey/querySurvey', {
     method: 'post',
     params: params,
