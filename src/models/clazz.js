@@ -1,4 +1,4 @@
-import { query, toDelete, batchDelete,toSaveOrUpdate} from '@/services/clazz';
+import { queryClazz, toDelete, batchDelete,toSaveOrUpdate,queryClazzVM} from '@/services/clazz';
 
 const ClazzModel = {
   namespace: 'clazz',
@@ -8,10 +8,18 @@ const ClazzModel = {
   effects: {
     // 获取所有班级信息
     *fetchClazz(_, { call, put }) {
-      const response = yield call(query);
+      const response = yield call(queryClazz);
       yield put({
         type: 'reloadClazz',
         payload: response,
+      });
+    },
+    // 筛选班级
+    *queryC(_, { call, put }) {
+      const response = yield call(queryClazzVM, _.payload);
+      yield put({
+        type: 'findClazz',
+        payload:response
       });
     },
     // 删除单个班级
@@ -43,6 +51,13 @@ const ClazzModel = {
       return {
         ...state,
         clazzs: action.payload.data,
+      };
+    },
+    findClazz(state, action) {
+      console.log(action.payload.data.list,'-----');
+      return {
+        ...state,
+        clazzs: action.payload.data.list,
       };
     },
   },
