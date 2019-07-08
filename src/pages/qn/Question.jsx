@@ -47,7 +47,9 @@ class Question extends React.Component {
     const newForm = this.formRef.props.form;
     newForm.validateFields((err, values) => {
       if (!err) {
-        console.log('表单绑定的数据：', values);
+        var a = this.formRef.state.options
+         values.options = a
+      this.props.dispatch({ type: 'question/addOrUpdate', payload: values });
       }
     });
     this.setState({

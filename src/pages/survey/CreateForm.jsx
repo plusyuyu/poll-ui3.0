@@ -35,6 +35,7 @@ class CreateForm extends React.Component {
               <Select>
                 {create.allVM.map(item => {
                   return (
+                    // console.log(create.allVM),
                     <Option key={item.id} value={item.id}>
                       {item.name}
                     </Option>
