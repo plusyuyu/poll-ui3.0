@@ -1,94 +1,100 @@
 import React from 'react';
-import { Form, Input, Radio, Select, Modal, Table, Icon,Button} from 'antd';
+import { Form, Input, Radio, Select, Modal, Table, Icon, Button } from 'antd';
 const { Option } = Select;
 const { TextArea } = Input;
 import { connect } from 'dva';
 var count = 0;
 var arr = [];
 var arr2 = [];
+var data = {};
 class QuestionForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       options: [],
+      name: '',
     };
   }
-
+  componentWillMount() {
+    this.setState({
+      options: data.options,
+    });
+  }
   handleChange = value => {
     console.log(`selected ${value}`);
   };
- 
-  addOption=()=>{
-    let obj = {}
-      if(count===0){
-        let obj = {
-          label: 'A',
-          name: '',
-          score: 5,
-        }
-        arr.push(obj)
-        this.setState({
-        options:arr
-      })
-      }else if(count===1){
-        let obj = {
-          label: 'B',
-          name: '',
-          score: 4,
-        }
-         arr.push(obj)
-        this.setState({
-        options:arr
-      })
-      }else if(count===2){
-        let obj = {
-          label: 'C',
-          name: '',
-          score: 3,
-        }
-         arr.push(obj)
-        this.setState({
-        options:arr
-      })
-      }else if(count===3){
-        let obj = {
-          label: 'D',
-          name: '',
-          score: 2,
-        }
-         arr.push(obj)
-        this.setState({
-        options:arr
-      })
-      }else if(count===4){
-        let obj = {
-          label: 'E',
-          name: '',
-          score: 1,
-        }
-         arr.push(obj)
-        this.setState({
-        options:arr
-      })
-      }
-      count = count +1;
-  }
-  changeName = (record,e)=>{
-   var arr3 = []
-    record.name = e.target.value
-    arr2.forEach((item,index)=>{
-        arr3.push(item.label)
-    })
+
+  addOption = () => {
+    let obj = {};
+    if (count === 0) {
+      let obj = {
+        label: 'A',
+        name: '',
+        score: 5,
+      };
+      arr.push(obj);
+      this.setState({
+        options: arr,
+      });
+    } else if (count === 1) {
+      let obj = {
+        label: 'B',
+        name: '',
+        score: 4,
+      };
+      arr.push(obj);
+      this.setState({
+        options: arr,
+      });
+    } else if (count === 2) {
+      let obj = {
+        label: 'C',
+        name: '',
+        score: 3,
+      };
+      arr.push(obj);
+      this.setState({
+        options: arr,
+      });
+    } else if (count === 3) {
+      let obj = {
+        label: 'D',
+        name: '',
+        score: 2,
+      };
+      arr.push(obj);
+      this.setState({
+        options: arr,
+      });
+    } else if (count === 4) {
+      let obj = {
+        label: 'E',
+        name: '',
+        score: 1,
+      };
+      arr.push(obj);
+      this.setState({
+        options: arr,
+      });
+    }
+    count = count + 1;
+  };
+  name = () => {};
+  changeName = (record, e) => {
+    var arr3 = [];
+    record.name = e.target.value;
+    arr2.forEach((item, index) => {
+      arr3.push(item.label);
+    });
     // arr2.push(record)
-    if(arr3.indexOf(record.label) == -1){
-      arr2.push(record)
+    if (arr3.indexOf(record.label) == -1) {
+      arr2.push(record);
       // console.log(arr2)
     }
     this.setState({
-        options:arr2
-      })
-    
-  }
+      options: arr2,
+    });
+  };
   render() {
     const columns = [
       {
@@ -101,7 +107,7 @@ class QuestionForm extends React.Component {
         render: (text, record) => {
           return (
             <div>
-                <Input onChange={this.changeName.bind(this,record)} />
+              <Input value={this.state.name} onChange={this.changeName.bind(this, record)} />
             </div>
           );
         },
@@ -158,7 +164,9 @@ class QuestionForm extends React.Component {
             />,
           )}
         </Form.Item>
-        <Button type="primary" onClick={this.addOption}>添加选项</Button>
+        <Button type="primary" onClick={this.addOption}>
+          添加选项
+        </Button>
       </Form>
     );
   }
@@ -166,6 +174,7 @@ class QuestionForm extends React.Component {
 //设置表单数据的默认值
 const mapPropsToFields = props => {
   let obj = {};
+  data = props.initData;
   for (let key in props.initData) {
     let val = props.initData[key];
     obj[key] = Form.createFormField({ value: val });
