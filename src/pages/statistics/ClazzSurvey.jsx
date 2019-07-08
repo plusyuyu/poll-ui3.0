@@ -130,7 +130,7 @@ class ClazzSurvey extends React.Component {
       <div className={styles.content}>
         {/* {JSON.stringify(this.props.clazzSurvey.clazz)} */}
         <Select
-          style={{ width: 200, marginLeft: '5px' }}
+          style={{ width: 200 }}
           placeholder="请选择所属年级"
           onChange={this.onChange1}
           name="id"
@@ -140,7 +140,7 @@ class ClazzSurvey extends React.Component {
           })}
         </Select>
         <Select
-          style={{ width: 200, marginLeft: '10px' }}
+          style={{ width: 200, marginLeft: '1em' }}
           placeholder="请选择问卷"
           name="id"
           onChange={this.onChange2}

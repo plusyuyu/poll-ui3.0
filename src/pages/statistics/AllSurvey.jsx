@@ -108,7 +108,7 @@ class AllSurvey extends React.Component {
         statuses: '审核通过',
         year: this.state.time._d.getFullYear(),
         clazzId: this.state.clazzId,
-        teacherId: record,
+        userId: record,
       },
     });
     this.setState({
@@ -127,9 +127,9 @@ class AllSurvey extends React.Component {
     const DescriptionItem = ({ title, content }) => (
       <div
         style={{
-          fontSize: 20,
+          fontSize: 14,
           lineHeight: '22px',
-          marginBottom: 40,
+          marginBottom: 7,
           color: 'rgba(0,0,0,0.65)',
         }}
       >
@@ -140,7 +140,7 @@ class AllSurvey extends React.Component {
             color: 'rgba(0,0,0,0.85)',
           }}
         >
-          {title}:
+          {title}
         </p>
         {content}
       </div>
@@ -220,7 +220,7 @@ class AllSurvey extends React.Component {
           onChange={this.clearValue}
         />
         <Select
-          style={{ width: 200, marginLeft: '10px' }}
+          style={{ width: 200, marginLeft: '1em' }}
           placeholder="请选择班级"
           onChange={this.onChange1}
           name="id"
@@ -230,7 +230,7 @@ class AllSurvey extends React.Component {
           })}
         </Select>
         <Select
-          style={{ width: 200, marginLeft: '10px' }}
+          style={{ width: 200, marginLeft: '1em' }}
           placeholder="请选择老师"
           name="id"
           onChange={this.onChange2}
@@ -249,6 +249,7 @@ class AllSurvey extends React.Component {
           rowKey="id"
           rowSelection={rowSelection}
           columns={columns}
+          size="small"
           dataSource={this.props.allSurvey.surveys}
           style={{ marginTop: '5px' }}
         />
@@ -265,14 +266,12 @@ class AllSurvey extends React.Component {
             style={{
               ...pStyle,
               marginBottom: 24,
-              fontSize: '40px',
-              marginTop: '5%',
               fontWeight: 'bolder',
             }}
           >
             审核客调
           </p>
-          <Row style={{ marginTop: '20%' }}>
+          <Row>
             <Col span={12}>
               <DescriptionItem title="班级" content={survey.surveyVM.clazzVM.grade.name} />
             </Col>
@@ -293,6 +292,21 @@ class AllSurvey extends React.Component {
               <DescriptionItem title="平均分" content={survey.surveyVM.average} />
             </Col>
           </Row>
+          <Divider />
+          <Row>
+            <Col>
+              <DescriptionItem
+                content={this.props.allSurvey.survey.answers.map(item => {
+                  return (
+                    <p key={item.id} value={item.id}>
+                      {item.content}
+                    </p>
+                  );
+                })}
+              />
+            </Col>
+          </Row>
+          <Divider />
         </Drawer>
       </div>
     );
