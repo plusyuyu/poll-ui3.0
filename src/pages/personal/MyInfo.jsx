@@ -59,8 +59,8 @@ class MyInfo extends React.Component {
     return (
       <div className={styles.content}>
         <div style={{ marginTop: '10px' }}>
-          <Button type="photo">更换头像</Button> &nbsp;&nbsp;
-          <Button type="edit" onClick={this.editPwd}>
+          <Button type="primary">更换头像</Button> &nbsp;
+          <Button type="primary" onClick={this.editPwd}>
             修改密码
           </Button>
         </div>
@@ -93,7 +93,7 @@ class MyInfo extends React.Component {
             </Form.Item>
           </Form>
 
-          <Button type="primary" onClick={this.update} style={{ marginLeft: '100px' }}>
+          <Button type="primary" onClick={this.update} style={{ marginLeft: '150px' }}>
             更新
           </Button>
         </div>
