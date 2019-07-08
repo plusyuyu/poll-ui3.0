@@ -5,9 +5,6 @@ const { Option } = Select;
 const { confirm } = Modal;
 import ClazzForm from './ClazzForm';
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 class Clazz extends React.Component {
   constructor(props) {
     super(props);
@@ -15,8 +12,10 @@ class Clazz extends React.Component {
       ids: [],
     };
   }
+ 
   componentWillMount() {
     this.props.dispatch({ type: 'clazz/fetchClazz' });
+    this.props.dispatch({ type: 'department/fetchDepartment' });
   }
   // 模态框
   state = { visible: false };
@@ -61,6 +60,14 @@ class Clazz extends React.Component {
   batchDelete(ids) {
     // message.success(JSON.stringify(this.state.ids))
     this.props.dispatch({ type: 'clazz/batchClazz', payload: this.state.ids });
+  }
+
+  queryClazzVM = record =>{
+    this.props.dispatch({ 
+      type: 'clazz/queryC',payload:{
+        page: 0, pageSize: 4, gradeId: record
+      }
+    });
   }
 
   render() {
@@ -111,10 +118,16 @@ class Clazz extends React.Component {
     return (
       <div>
         <div style={{backgroundColor:'white',borderRadius:'5px',padding:'1em'}}>
-          <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="Yiminghe">yiminghe</Option>
+          {/* {JSON.stringify(this.props.department.departments)} */}
+          <Select
+            showSearch
+            style={{ width: 200 }}
+            placeholder="请选择所属年级"
+            onChange={this.queryClazzVM}
+          >
+            {this.props.department.departments.map(item => {
+              return <Option value={item.id}>{item.name}</Option>;
+            })}
           </Select>
           <Button type="primary" onClick={this.showModal} style={{ marginBottom: '0.5em',marginLeft:'0.5em',marginRight:'0.5em' }}>
             添加
@@ -151,6 +164,4 @@ class Clazz extends React.Component {
   }
 }
 
-export default connect(({ clazz }) => ({
-  clazz,
-}))(Clazz);
+export default connect(state =>state)(Clazz);
