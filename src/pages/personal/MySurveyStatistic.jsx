@@ -17,18 +17,22 @@ import {
 } from 'antd';
 import styles from './MySurveyStatistic.less';
 
+const max={},min={};
+
 class MySurveyStatistic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
+      arr:[]
     };
   }
 
   componentWillMount() {
     this.props.dispatch({ 
       type: 'mySurveyStatistic/fetchMySurveyStatistics',payload:{page:0,pageSize:10,statuses:"审核通过"}});
-      // this.props.dispatch({type: 'mySurveyStatistic/fetchSurveyCard' , payload:id }); 
+      setTimeout(()=>{this.loadCard()
+      },500); 
   }
 
   downExcel(record) {
@@ -70,12 +74,7 @@ class MySurveyStatistic extends React.Component {
     });
   };
 
-  loadCard=(id)=>{
-    // this.props.dispatch({ 
-    //   type: 'mySurveyStatistic/fetchSurveyCard' ,
-    //   payload:id 
-    // }); 
-
+  loadCard=()=>{
     var max=0;
     var min;
     var maxId;
@@ -86,24 +85,26 @@ class MySurveyStatistic extends React.Component {
       if(max<array[i].average){
         max=array[i].average;
         maxId=array[i].id;
+        this.max=array[i];
       }
       min=array[i].average;
       minId=array[i].id;
+      this.min=array[i];
     }
    
     for(let j=array.length-1;j>array.length;j--){
       if(min>array[j].average){
         min=array[j].average;
-        minId=array[i].id;     
+      this.min=array[i];
+      minId=array[i].id;   
       }
     }
-  
+    console.log(this.max,this.min)
+    this.props.dispatch({type:"mySurveyStatistic/fetchSurveyCard",payload:{max:this.max,min:this.min}})
     var obj=[max,min]
-    // console.log(maxId,minId)
     return obj;
   };
 
- 
   loadAverage(){
     var sum=0;
     var array1=this.props.mySurveyStatistic.mySurveyStatistics;
@@ -180,6 +181,7 @@ class MySurveyStatistic extends React.Component {
     function onChange(date, dateString) {
       console.log(date, dateString);
     }
+    
     const sum=0;
     return (
       <div className={styles.content}>
@@ -265,20 +267,20 @@ class MySurveyStatistic extends React.Component {
             </Col>
             <Col span={8}>
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                最高分:{this.loadCard()[0]}<br />
+                最高分:{this.props.mySurveyStatistic.max.average}<br />
                 班級：{this.props.mySurveyStatistic.max.clazzVM.name}<br />
-                讲师：<br />
-                课程：<br />
-                问卷：<br />
+                讲师：{this.props.mySurveyStatistic.max.user.nickname}<br />
+                课程：{this.props.mySurveyStatistic.max.course.name}<br />
+                问卷：{this.props.mySurveyStatistic.max.qnVM.name}<br />
               </Card>
             </Col>
             <Col span={8}>
               <Card style={{ backgroundColor: 'darkseagreen', borderRadius: 8 }}>
-                最低分：{this.loadCard()[1]}<br />
-                班級：<br />
-                讲师：<br />
-                课程：<br />
-                问卷：<br />
+              最低分:{this.props.mySurveyStatistic.min.average}<br />
+                班級：{this.props.mySurveyStatistic.min.clazzVM.name}<br />
+                讲师：{this.props.mySurveyStatistic.min.user.nickname}<br />
+                课程：{this.props.mySurveyStatistic.min.course.name}<br />
+                问卷：{this.props.mySurveyStatistic.min.qnVM.name}<br />
               </Card>
             </Col>
           </Row>

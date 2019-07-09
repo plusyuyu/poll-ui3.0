@@ -37,19 +37,18 @@ const mySurveyStatisticModel = {
     //获取所有信息
     *fetchMySurveyStatistics(_, { call, put }) {
       const response = yield call(fetchMySurveyStatistics,_.payload);
-      console.log(response.data)
+      console.log(response)
       yield put({
         type: 'reloadMySurveyStatistics',
         payload: response.data.data.list,
       });
     },
-    //卡片详细信息
+    //卡片最大值信息
     *fetchSurveyCard(_, { call, put }) {
-      const response = yield call(fetchSurveyCard, { id: _.payload });
-      console.log('response', response);
+      // console.log('response', response);
       yield put({
         type: 'reloadSurveyCard',
-        payload: response.data.list,
+        payload: _.payload,
       });
     },
     //详细信息
@@ -58,7 +57,7 @@ const mySurveyStatisticModel = {
       console.log('response', response);
       yield put({
         type: 'reloadSurveyDetails',
-        payload: response.data.list,
+        payload: response.data,
       });
     },
   },
@@ -79,8 +78,8 @@ const mySurveyStatisticModel = {
     reloadSurveyCard(state, action) {
       return {
         ...state,
-        max: action.payload,
-        // min: action.payload
+        max: action.payload.max,
+        min: action.payload.min,
       };
     },
   },
