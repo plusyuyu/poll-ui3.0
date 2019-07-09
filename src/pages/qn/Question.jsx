@@ -15,7 +15,13 @@ class Question extends React.Component {
   }
 
   edit = (data, event) => {
-    console.log(this.props.question.questions);
+    // console.log('=========',data)
+    this.setState({
+      visible: true,
+      form: this.props.question.questions[data],
+    });
+
+    // console.log(this.props.question.questions);
   };
 
   componentWillMount() {
@@ -47,9 +53,9 @@ class Question extends React.Component {
     const newForm = this.formRef.props.form;
     newForm.validateFields((err, values) => {
       if (!err) {
-        var a = this.formRef.state.options
-         values.options = a
-      this.props.dispatch({ type: 'question/addOrUpdate', payload: values });
+        var a = this.formRef.state.options;
+        values.options = a;
+        this.props.dispatch({ type: 'question/addOrUpdate', payload: values });
       }
     });
     this.setState({
@@ -100,7 +106,7 @@ class Question extends React.Component {
                       className={style.icon}
                       type="edit"
                       title="修改"
-                      onClick={this.edit.bind(this)}
+                      onClick={this.edit.bind(this, index)}
                     />{' '}
                     <Icon
                       type="delete"

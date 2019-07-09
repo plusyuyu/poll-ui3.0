@@ -36,10 +36,22 @@ class Create extends React.Component {
 	handleCreate = () => {
 		const form = this.formRef.props.form;
 		form.validateFields((err, values) => {
+			var values1 = new Array();
+			values1 = {
+				'id': values.id,
+				'average': null,
+				'status': values.status,
+				'code':null,
+				'surveydate':values.date,
+				'courseId': values.courseID,
+				'clazzId': values.clazz,
+				'userId': values.userID,
+				'questionnaireId': values.questionnaireId,
+			};
 			if (err) {
 				return;
 			}
-			this.props.dispatch({ type: 'create/saveOrUpdateCreate', payload: values });
+			this.props.dispatch({ type: 'create/saveOrUpdateCreate', payload: values1 });
 		});
 	};
 
@@ -49,19 +61,16 @@ class Create extends React.Component {
 		this.setState({ form: {} });
 	};
 
-	// 修改
+	// 编辑
 	toEdit = record => {
-		// console.log('修改课调', JSON.stringify(record));
-		alert('功能维护中...')
 		this.setState({
 			form: record,
 		});
-		// this.props.dispatch({ type: 'create/changeVisible', payload: true });
+		this.props.dispatch({ type: 'create/changeVisible', payload: true });
 	};
 
 	// 预览课调 展示抽屉
 	showDrawer = record => {
-		// this.props.dispatch({ type: 'mySurveyStatistic/fetchSurveyDetails', payload: record.id });
 		this.setState({
 			visible: true,
 			record_clazzVM: record.clazzVM,
@@ -70,7 +79,7 @@ class Create extends React.Component {
 			record_qnVM: record.qnVM,
 		},
 			() => {
-				// console.log(record.qnVM)
+				// console.log('record',record)
 			});
 	}
 
@@ -170,27 +179,27 @@ class Create extends React.Component {
 		const columns = [
 			{
 				title: '年级',
-				dataIndex: 'clazzVM.grade.name',
+				dataIndex: 'grade',
 			},
 			{
 				title: '班级',
-				dataIndex: 'clazzVM.name',
+				dataIndex: 'clazz',
 			},
 			{
 				title: '课程',
-				dataIndex: 'course.name',
+				dataIndex: 'coursename',
 			},
 			{
 				title: '讲师',
-				dataIndex: 'user.nickname',
+				dataIndex: 'teacher',
 			},
 			{
 				title: '问卷',
-				dataIndex: 'qnVM.name',
+				dataIndex: 'survey',
 			},
 			{
 				title: '创建时间',
-				dataIndex: 'surveydate',
+				dataIndex: 'date',
 			},
 			{
 				title: '状态',
@@ -204,7 +213,7 @@ class Create extends React.Component {
 				title: '操作',
 				fixed: 'right',
 				width: 100,
-				render: (text, record) => {
+				render: (record) => {
 					if (record.status === '开启') {
 						return (
 							<div>
@@ -221,7 +230,7 @@ class Create extends React.Component {
 								</a>
 								&nbsp;
 								<a title="开启课调" style={{ cursor: 'not-allowed', disabled: 'true' }}>
-									<Icon type="poweroff" disabled='true' />
+									<Icon type="poweroff" />
 								</a>
 								&nbsp;
 							</div>
@@ -267,10 +276,10 @@ class Create extends React.Component {
 				this.state.record_qnVM.questionVMs.map(item => {
 					return (
 						<div>
-							<span >
+							<span>
 								{item.name}
 							</span>
-							<span style={{ marginLeft: 20, padding: 3, backgroundColor: '#fdf6ec', borderColor: '#faecd8', color: '#e6a23c', width: 50, height: 20, fontSize: 10,  borderRadius: 5 }}>
+							<span style={{ marginLeft: 20, padding: 3, backgroundColor: '#fdf6ec', borderColor: '#faecd8', color: '#e6a23c', width: 50, height: 20, fontSize: 10, borderRadius: 5 }}>
 								{item.questionType}
 							</span>
 							<p style={{ marginLeft: 35, }}>
@@ -289,8 +298,8 @@ class Create extends React.Component {
 					<Button className="btns" type="primary" onClick={this.toAdd}>
 						添加
 			</Button>
-					&nbsp;
-			<Button className="btns" type="danger" onClick={this.batchDeleteSurveyById.bind(this)}>
+
+					<Button className="btns" type="danger" onClick={this.batchDeleteSurveyById.bind(this)} style={{ marginBottom: '0.5em', marginLeft: '0.5em' }}>
 						批量删除
 			</Button>
 				</div>
@@ -358,14 +367,11 @@ class Create extends React.Component {
 						</Col>
 					</Row>
 					<Divider />
-					<Row>
-						<Col span={12}>
-							<DescriptionItem
-								title="问卷"
-								content={userMessage}
-							/>
-
-						</Col>
+					<Row >
+						<DescriptionItem
+							title="问卷"
+							content={userMessage}
+						/>
 					</Row>
 					<Divider />
 				</Drawer>
